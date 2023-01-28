@@ -30,8 +30,8 @@ public class VorTXController extends PS4Controller {
 		options = new JoystickButton(this, 10);
 		ls = new JoystickButton(this,11);
 		rs = new JoystickButton(this, 12);
-
 		
+
 		pov0 = new POVButton(this, 0);
 		pov45 = new POVButton(this, 45);
 		pov90 = new POVButton(this, 90);

@@ -7,6 +7,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.IndexerSub;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
 
 
@@ -30,11 +31,14 @@ public class IndexerCom extends CommandBase {
     index.move(1);
   }
 
-
-
   public void stopMotor() {
     index.move(0);
   }
+
+  public void moveMotor() {
+    index.move(RobotContainer.con1.getLeftY());
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

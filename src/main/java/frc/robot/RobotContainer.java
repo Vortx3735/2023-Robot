@@ -11,6 +11,8 @@ import frc.robot.subsystems.IndexerSub;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.VorTXController;
+import frc.robot.subsystems.PhotonSub;
+
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 /**
@@ -27,6 +29,8 @@ public class RobotContainer {
   public static JoystickButton triangleButton = con1.triangle;
   public static IndexerSub indexersub = new IndexerSub(13);
   public static IndexerCom indexer = new IndexerCom(indexersub);
+  //public static PhotonSub limelight = new PhotonSub();
+
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -36,10 +40,11 @@ public class RobotContainer {
 
     indexersub.setDefaultCommand(
       new RunCommand(
-        indexer::stopMotor,
+        indexer::moveMotor,
         indexersub
       )
     );
+
     
   }
 
@@ -56,7 +61,7 @@ public class RobotContainer {
           indexer::startMotor,
           indexersub   
         )
-      );
+    );
 
 
   } 
