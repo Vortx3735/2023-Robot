@@ -16,39 +16,34 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PhotonSub extends SubsystemBase {
   PhotonCamera limelight;
-  /** Creates a new ExampleSubsystem. */
-  public PhotonSub() {
-    limelight = new PhotonCamera("photonvision");
+  /** Creates a new ExampleSubsystem. 
+   * @cameraName the name from the photonvision gui
+  */
+  public PhotonSub(String cameraName) {
+    limelight = new PhotonCamera(cameraName);
   } 
 
   public PhotonPipelineResult getTargets() {
     return limelight.getLatestResult();
   }
-  
-  public PhotonTrackedTarget getBestTarget(PhotonPipelineResult pipelineResult) {
-    return pipelineResult.getBestTarget();
-  }
-
-  public void printStuff(PhotonTrackedTarget trackedTarget) {
-    System.out.println("hewwo it worwking vewwy weww" + trackedTarget.getFiducialId());
-  }
-
-  // public boolean hasTargets(PhotonPipelineResult piplineResult) {
-  //   return piplineResult.hasTargets();
-  // }
-
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     PortForwarder.add(5800, "photonvision.local", 5800);
     PhotonPipelineResult pipelineResult = getTargets();
-    PhotonTrackedTarget trackedTarget = getBestTarget(pipelineResult);
-    if (trackedTarget != null){
-      printStuff(trackedTarget);
+    if ( pipelineResult.hasTargets() ) {
+      PhotonTrackedTarget trackedTarget = pipelineResult.getBestTarget();
+      System.out.println("Fiducial ID: " + trackedTarget.getFiducialId());
+      System.out.println("Yaw: " + trackedTarget.getYaw());
+      System.out.println("Pitch: " + trackedTarget.getPitch());
+      System.out.println("Skew: " + trackedTarget.getSkew());
+      
     } else {
-      System.out.println("ur baddddddd LLLLLLLLLLLLLLLll get fricked");
+      System.out.println("camera not see anythig\n");
     }
+    
+    
     
       
 
