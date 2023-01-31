@@ -10,4 +10,5 @@ New to this year, we're using:
 * Auton pathplanning (with swerve!)
 * Fancy rainbow RGB LEDs (the most important part of the robot)
 * All the Rev software and hardware
+
 Phew. It's only a few things, rigth? I'm sure we can handle this all before our Week 1 Waco comp... probably.
