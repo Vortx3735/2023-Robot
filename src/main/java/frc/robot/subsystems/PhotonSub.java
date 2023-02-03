@@ -8,6 +8,7 @@ package frc.robot.subsystems;
 
 
 import org.photonvision.PhotonCamera;
+//import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -21,32 +22,35 @@ public class PhotonSub extends SubsystemBase {
   */
   public PhotonSub(String cameraName) {
     limelight = new PhotonCamera(cameraName);
+    PortForwarder.add(5800, "photonvision.local", 5800);
   } 
 
   public PhotonPipelineResult getTargets() {
     return limelight.getLatestResult();
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    PortForwarder.add(5800, "photonvision.local", 5800);
+  public void getInfo() {
     PhotonPipelineResult pipelineResult = getTargets();
     if ( pipelineResult.hasTargets() ) {
+      // yaw is left and right
+      // skew is roll side to side
+      // pitch is up and down
       PhotonTrackedTarget trackedTarget = pipelineResult.getBestTarget();
       System.out.println("Fiducial ID: " + trackedTarget.getFiducialId());
       System.out.println("Yaw: " + trackedTarget.getYaw());
       System.out.println("Pitch: " + trackedTarget.getPitch());
       System.out.println("Skew: " + trackedTarget.getSkew());
-      
+
     } else {
       System.out.println("camera not see anythig\n");
     }
-    
-    
-    
-      
+  }
 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    
+    
   }
 
   @Override
