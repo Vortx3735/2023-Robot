@@ -28,7 +28,7 @@ public class ShooterCom extends CommandBase {
   }
 
   public void startMotor() {
-    shooter.move(.5);
+    shooter.move(1);
   }
 
 

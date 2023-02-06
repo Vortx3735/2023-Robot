@@ -27,7 +27,7 @@ public class ShooterSub extends SubsystemBase {
     miniCim.setNeutralMode(NeutralMode.Coast);
 
     miniCim.follow(motor775);
-    motor775.setInverted(true);
+    motor775.setInverted(false);
   }
 
   public void move(double percentSpeed){
