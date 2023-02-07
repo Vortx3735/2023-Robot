@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.VorTXController;
 import frc.robot.subsystems.PhotonSub;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.ShooterSub;
 import frc.robot.commands.ShooterCom;
 
@@ -33,6 +34,7 @@ public class RobotContainer {
   public static ShooterSub shooterSub = new ShooterSub(1, 6);
   public static ShooterCom shooter = new ShooterCom(shooterSub);
   public static PhotonSub limelight = new PhotonSub("ur mother");
+  public static Gyro gyro = new Gyro();
 
 
   
