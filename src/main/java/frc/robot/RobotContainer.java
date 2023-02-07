@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.VorTXController;
 import frc.robot.subsystems.PhotonSub;
 import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.ShooterSub;
-import frc.robot.commands.ShooterCom;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 /**
@@ -31,8 +29,6 @@ public class RobotContainer {
   public static JoystickButton triangleButton = con1.triangle;
   public static IndexerSub indexersub = new IndexerSub(13, 11);
   public static IndexerCom indexer = new IndexerCom(indexersub);
-  public static ShooterSub shooterSub = new ShooterSub(1, 6);
-  public static ShooterCom shooter = new ShooterCom(shooterSub);
   public static PhotonSub limelight = new PhotonSub("ur mother");
   public static Gyro gyro = new Gyro();
 
@@ -43,19 +39,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // indexersub.setDefaultCommand(
-    //   new RunCommand(
-    //     indexer::moveMotor,
-    //     indexersub
-
-    //   )
-    // );
-
-    shooterSub.setDefaultCommand(
+    indexersub.setDefaultCommand(
       new RunCommand(
-        shooter::stopMotor,
-        shooterSub
-        )
+        indexer::moveMotor,
+        indexersub
+
+      )
     );
 
     
@@ -69,20 +58,14 @@ public class RobotContainer {
    */ 
   private void configureButtonBindings() {
     //     // index and shoot
-    //     circleButton.whileTrue(
-    //         new RunCommand(
-    //           indexer::startMotor,
-    //           indexersub   
-    //         )
-    //     );
+        circleButton.whileTrue(
+            new RunCommand(
+              indexer::startMotor,
+              indexersub   
+            )
+        );
 
 
-    circleButton.whileTrue(
-      new RunCommand(
-        shooter::startMotor,
-        shooterSub
-        )
-    );
 
 
   } 
