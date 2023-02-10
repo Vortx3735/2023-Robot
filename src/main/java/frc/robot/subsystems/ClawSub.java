@@ -4,28 +4,26 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-
-
-import com.kauailabs.navx.frc.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Gyro extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. 
-   * @cameraName the name from the photonvision gui
-  */
-  AHRS gyro;
-  public Gyro() {
-    gyro = new AHRS();
-    gyro.calibrate();
-  } 
+public class ClawSub extends SubsystemBase {
+  CANSparkMax ClawNeo;
+  /** Creates a new ExampleSubsystem. */
+  public ClawSub(int ID) {
+    ClawNeo = new CANSparkMax(ID, MotorType.kBrushless);
+  }
+
+  public void move(double percentSpeed){
+    ClawNeo.set(percentSpeed);
+  }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //System.out.println(gyro.getAngle());
-    
   }
 
   @Override
