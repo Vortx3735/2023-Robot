@@ -9,15 +9,18 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IndexerSub extends SubsystemBase {
-  CANSparkMax IndexerNeo;
+public class IntakeSub extends SubsystemBase {
+  CANSparkMax IntakeNeo1;
+  CANSparkMax IntakeNeo2;
   /** Creates a new ExampleSubsystem. */
-  public IndexerSub(int ID) {
-    IndexerNeo = new CANSparkMax(ID, MotorType.kBrushless);
+  public IntakeSub(int ID1, int ID2) {
+    IntakeNeo1 = new CANSparkMax(ID1, MotorType.kBrushless);
+    IntakeNeo2 = new CANSparkMax(ID2, MotorType.kBrushless);
+    IntakeNeo2.follow(IntakeNeo1, true);
   }
 
   public void move(double percentSpeed){
-    IndexerNeo.set(percentSpeed);
+    IntakeNeo1.set(percentSpeed);
   }
 
 
