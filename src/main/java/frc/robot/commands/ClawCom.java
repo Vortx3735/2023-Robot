@@ -26,16 +26,12 @@ public class ClawCom extends CommandBase {
     addRequirements(claw);
   }
 
-  public void closeClaw() {
-    claw.move(0.25);
-  }
-
   public void stoppedClaw() {
     claw.move(0);
   }
 
   public void openClaw() {
-    claw.move(-0.25);
+    claw.move(-0.35);
   }
 
   // Called when the command is initially scheduled.

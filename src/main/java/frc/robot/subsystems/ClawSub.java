@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,6 +15,7 @@ public class ClawSub extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public ClawSub(int ID) {
     ClawNeo = new CANSparkMax(ID, MotorType.kBrushless);
+    ClawNeo.setIdleMode(IdleMode.kBrake);
   }
 
   public void move(double percentSpeed){

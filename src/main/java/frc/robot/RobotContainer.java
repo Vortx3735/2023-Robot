@@ -4,14 +4,24 @@
 
 package frc.robot;
 
+// ask ethan what this is
+// import javax.print.attribute.standard.JobHoldUntil;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+// import frc.robot.commands.*;
 import frc.robot.commands.ClawCom;
 import frc.robot.commands.IndexerCom;
 import frc.robot.commands.ElevatorCom;
 import frc.robot.commands.IntakeCom;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.TeleopSwerve;
+
+// import frc.robot.subsystems.*;
 import frc.robot.subsystems.VorTXController;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.IndexerSub;
@@ -19,8 +29,10 @@ import frc.robot.subsystems.PhotonSub;
 import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.Swerve;
 
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.autos.exampleAuto;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -41,6 +53,16 @@ public class RobotContainer {
   public static JoystickButton triangleButton2 = con2.triangle;
   public static JoystickButton crossButton2 = con2.cross;
   public static JoystickButton squareButton2 = con2.square;
+  public static JoystickButton leftBumper2 = con2.l2;
+  
+  private final double translationAxis = con2.getLeftY();
+  private final double strafeAxis = con2.getLeftX(); 
+  private final double rotationAxis = con2.getRightX();
+  
+  //triangle on con2
+  private final JoystickButton zeroGyro = new JoystickButton(con2, 4);
+  //right bumper on con2
+  private final JoystickButton robotCentric = new JoystickButton(con2, 5);
 
   public static IntakeSub intakesub = new IntakeSub(1, 2);
   public static IntakeCom intake = new IntakeCom(intakesub);
@@ -59,6 +81,7 @@ public class RobotContainer {
 
   public static PhotonSub limelight = new PhotonSub("ur mother");
   public static Gyro gyro = new Gyro();   
+  public static Swerve s_Swerve = new Swerve();
 
 //intake = 2 motors
   //indexer = 0 motors (same motor as intake)
@@ -68,9 +91,19 @@ public class RobotContainer {
 //swerve = 8 motors
 //add 1-2 maybe
 //current total = 15 motors
+
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    s_Swerve.setDefaultCommand(
+      new TeleopSwerve(
+          s_Swerve,
+          () -> -con2.getRawAxis((int) translationAxis),
+          () -> -con2.getRawAxis((int) strafeAxis),
+          () -> -con2.getRawAxis((int) rotationAxis),
+          () -> robotCentric.getAsBoolean()
+        )
+    );
     // Configure the button bindings
     configureButtonBindings();
 
@@ -111,7 +144,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */ 
   private void configureButtonBindings() {
-    //     // index and shoot
+    zeroGyro.whileTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+    //  index and shoot
         circleButton1.whileTrue(
           new RunCommand(
             indexer::startMotor,
@@ -124,13 +159,6 @@ public class RobotContainer {
             claw::openClaw,
             clawsub
           )
-        );
-
-        crossButton1.whileTrue(
-          new RunCommand(
-            claw::closeClaw,
-            clawsub
-            )
         );
 
         squareButton1.whileTrue(
@@ -158,6 +186,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return indexer;
+    return new exampleAuto(s_Swerve);
   }
 }

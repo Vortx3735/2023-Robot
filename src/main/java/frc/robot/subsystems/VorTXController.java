@@ -24,6 +24,8 @@ public class VorTXController extends PS4Controller {
 		cross = new JoystickButton(this, 2);
 		circle = new JoystickButton(this, 3);
 		triangle = new JoystickButton(this, 4);
+		l1 = new JoystickButton(this, 5);
+		r1 = new JoystickButton(this, 6);
 		l2 = new JoystickButton(this, 7);
 		r2 = new JoystickButton(this, 8);
 		share = new JoystickButton(this, 9);
