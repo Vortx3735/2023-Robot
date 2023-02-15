@@ -1,12 +1,13 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.kauailabs.navx.frc.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Swerve extends SubsystemBase {
-  private final Pigeon2 gyro;
+  AHRS gyro;
 
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
@@ -22,12 +23,10 @@ public class Swerve extends SubsystemBase {
   private Field2d field;
 
   public Swerve() {
-    gyro = new Pigeon2(Constants.Swerve.pigeonID);
-    gyro.configFactoryDefault();
     zeroGyro();
 
     //module positions????
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), null);
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getStates());
 
     mSwerveMods =
         new SwerveModule[] {
@@ -71,11 +70,12 @@ public class Swerve extends SubsystemBase {
 
   //module positions???
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), null, pose);
+    swerveOdometry.resetPosition(getYaw(), getStates(), pose);
   }
 
-  public SwerveModuleState[] getStates() {
-    SwerveModuleState[] states = new SwerveModuleState[4];
+
+  public SwerveModulePosition[] getStates() {
+    SwerveModulePosition[] states = new SwerveModulePosition[4];
     for (SwerveModule mod : mSwerveMods) {
       states[mod.moduleNumber] = mod.getState();
     }
@@ -83,7 +83,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void zeroGyro() {
-    gyro.setYaw(0);
+    gyro.zeroYaw();
   }
 
   public Rotation2d getYaw() {
@@ -94,8 +94,7 @@ public class Swerve extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //null is supposed to be getStates()
-    swerveOdometry.update(getYaw(), null);
+    swerveOdometry.update(getYaw(), getStates());
     field.setRobotPose(getPose());
 
     for (SwerveModule mod : mSwerveMods) {
@@ -104,7 +103,7 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
       SmartDashboard.putNumber(
-          "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+          "Mod " + mod.moduleNumber + " Distance", mod.getState().distanceMeters);
     }
   }
 }

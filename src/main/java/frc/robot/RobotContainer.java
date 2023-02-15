@@ -70,7 +70,7 @@ public class RobotContainer {
   //indexer uses same motor as intake
   //will have to remove all of the indexer in code
   //reorder Spark ids here once removed
-  public static IndexerSub indexersub = new IndexerSub(3);
+  public static IndexerSub indexersub = new IndexerSub(9);
   public static IndexerCom indexer = new IndexerCom(indexersub);
 
   public static ClawSub clawsub = new ClawSub(4);
