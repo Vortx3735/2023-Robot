@@ -13,24 +13,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-// import frc.robot.commands.*;
-import frc.robot.commands.ClawCom;
-import frc.robot.commands.IndexerCom;
-import frc.robot.commands.ElevatorCom;
-import frc.robot.commands.IntakeCom;
-import frc.robot.commands.TeleopSwerve;
-
-// import frc.robot.subsystems.*;
-import frc.robot.subsystems.VorTXController;
-import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.IndexerSub;
-import frc.robot.subsystems.PhotonSub;
-import frc.robot.subsystems.ClawSub;
-import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.ElevatorSub;
-import frc.robot.subsystems.Swerve;
-
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import frc.robot.autos.exampleAuto;
 
 /**
