@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Swerve extends SubsystemBase {
-  AHRS gyro;
+  public AHRS gyro;
 
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
@@ -23,6 +23,8 @@ public class Swerve extends SubsystemBase {
   private Field2d field;
 
   public Swerve() {
+    gyro = new AHRS();
+    gyro.calibrate();
     zeroGyro();
 
     //module positions????
@@ -88,8 +90,8 @@ public class Swerve extends SubsystemBase {
 
   public Rotation2d getYaw() {
     return (Constants.Swerve.invertGyro)
-        ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-        : Rotation2d.fromDegrees(gyro.getYaw());
+        ? Rotation2d.fromDegrees(360 - gyro.getAngle())
+        : Rotation2d.fromDegrees(gyro.getAngle());
   }
 
   @Override
