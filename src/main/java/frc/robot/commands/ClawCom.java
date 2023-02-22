@@ -31,7 +31,7 @@ public class ClawCom extends CommandBase {
   }
 
   public void openClaw() {
-    claw.move(-0.35);
+    claw.move(-0.1);
   }
 
   // Called when the command is initially scheduled.
