@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.autos.exampleAuto;
+import frc.robot.Constants.OIConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,17 +32,22 @@ public class RobotContainer {
   public static JoystickButton crossButton1 = con1.cross;
   public static JoystickButton squareButton1 = con1.square;
 
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+
+  // The driver's controller
+  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+
   public static VorTXController con2 = new VorTXController(1);
   public static JoystickButton circleButton2 = con2.circle;
   public static JoystickButton triangleButton2 = con2.triangle;
   public static JoystickButton crossButton2 = con2.cross;
   public static JoystickButton squareButton2 = con2.square;
   public static JoystickButton leftBumper2 = con2.l2;
-  
+
   private final double translationAxis = con2.getLeftY();
-  private final double strafeAxis = con2.getLeftX(); 
+  private final double strafeAxis = con2.getLeftX();
   private final double rotationAxis = con2.getRightX();
-  
+
   //triangle on con2
   private final JoystickButton zeroGyro = new JoystickButton(con2, 4);
   //right bumper on con2
@@ -64,61 +69,56 @@ public class RobotContainer {
   public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
 
   public static PhotonSub limelight = new PhotonSub("ur mother");
-  public static Gyro gyro = new Gyro();   
-  public static Swerve s_Swerve = new Swerve();
+  public static Gyro gyro = new Gyro();
 
-//intake = 2 motors
+  //intake = 2 motors
   //indexer = 0 motors (same motor as intake)
-//claw = 1 motors
-//elevator = 2 motors
-//ramp = 2 motors
-//swerve = 8 motors
-//add 1-2 maybe
-//current total = 15 motors
+  //claw = 1 motors
+  //elevator = 2 motors
+  //ramp = 2 motors
+  //swerve = 8 motors
+  //add 1-2 maybe
+  //current total = 15 motors
 
-  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    s_Swerve.setDefaultCommand(
-      new TeleopSwerve(
-          s_Swerve,
-          () -> -con2.getRawAxis((int) translationAxis),
-          () -> -con2.getRawAxis((int) strafeAxis),
-          () -> -con2.getRawAxis((int) rotationAxis),
-          () -> robotCentric.getAsBoolean()
-        )
-    );
+
     // Configure the button bindings
     configureButtonBindings();
 
     indexersub.setDefaultCommand(
-      new RunCommand(
-        indexer::moveMotor,
-        indexersub
+        new RunCommand(
+            indexer::moveMotor,
+            indexersub
 
-      )
-    );
+        ));
 
     clawsub.setDefaultCommand(
-      new RunCommand(
-        claw::stoppedClaw,
-        clawsub
-        )
-    );
+        new RunCommand(
+            claw::stoppedClaw,
+            clawsub));
 
     elevatorsub.setDefaultCommand(
-      new RunCommand(
-        elevator::stopMotor,
-        elevatorsub
-      )
-    );
+        new RunCommand(
+            elevator::stopMotor,
+            elevatorsub));
 
     intakesub.setDefaultCommand(
-      new RunCommand(
-        intake::stopMotor,
-        intakesub)
-    );
-    
+        new RunCommand(
+            intake::stopMotor,
+            intakesub));
+
+    m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                m_driverController.getLeftY(),
+                m_driverController.getLeftX(),
+                m_driverController.getRightX(),
+                false),
+            m_robotDrive));
+
   }
 
   /**
@@ -126,37 +126,29 @@ public class RobotContainer {
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */ 
+   */
   private void configureButtonBindings() {
-    zeroGyro.whileTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
     //  index and shoot
-        circleButton1.whileTrue(
-          new RunCommand(
+    circleButton1.whileTrue(
+        new RunCommand(
             indexer::startMotor,
-            indexersub   
-          )
-        );
-        // FOR CLAW IMPLEMENT A STOP-POINT
-        triangleButton1.whileTrue(
-          new RunCommand(
+            indexersub));
+    // FOR CLAW IMPLEMENT A STOP-POINT
+    triangleButton1.whileTrue(
+        new RunCommand(
             claw::openClaw,
-            clawsub
-          )
-        );
+            clawsub));
 
-        squareButton1.whileTrue(
-          new RunCommand(
+    squareButton1.whileTrue(
+        new RunCommand(
             elevator::startMotor,
-            elevatorsub
-          )
-        );
+            elevatorsub));
 
-        circleButton2.whileTrue(
-          new RunCommand(
+    circleButton2.whileTrue(
+        new RunCommand(
             intake::startMotor,
-            intakesub)
-        );
+            intakesub));
   }
 
   // command group
@@ -168,8 +160,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new exampleAuto(s_Swerve);
-  }
+  //public Command getAutonomousCommand() {
+  //  // An ExampleCommand will run in autonomous
+  //  return new exampleAuto(ClawCom);
+  //}
 }
