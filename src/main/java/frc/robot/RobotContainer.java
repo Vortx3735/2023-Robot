@@ -8,14 +8,13 @@ package frc.robot;
 // import javax.print.attribute.standard.JobHoldUntil;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.Constants.OIConstants;
+//import frc.robot.Constants.OIConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,9 +33,6 @@ public class RobotContainer {
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-  // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
   public static VorTXController con2 = new VorTXController(1);
   public static JoystickButton circleButton2 = con2.circle;
   public static JoystickButton triangleButton2 = con2.triangle;
@@ -44,14 +40,6 @@ public class RobotContainer {
   public static JoystickButton squareButton2 = con2.square;
   public static JoystickButton leftBumper2 = con2.l2;
 
-  private final double translationAxis = con2.getLeftY();
-  private final double strafeAxis = con2.getLeftX();
-  private final double rotationAxis = con2.getRightX();
-
-  //triangle on con2
-  private final JoystickButton zeroGyro = new JoystickButton(con2, 4);
-  //right bumper on con2
-  private final JoystickButton robotCentric = new JoystickButton(con2, 5);
 
   public static IntakeSub intakesub = new IntakeSub(1, 2);
   public static IntakeCom intake = new IntakeCom(intakesub);
@@ -59,7 +47,7 @@ public class RobotContainer {
   //indexer uses same motor as intake
   //will have to remove all of the indexer in code
   //reorder Spark ids here once removed
-  public static IndexerSub indexersub = new IndexerSub(9);
+  public static IndexerSub indexersub = new IndexerSub(3);
   public static IndexerCom indexer = new IndexerCom(indexersub);
 
   public static ClawSub clawsub = new ClawSub(4);
@@ -113,9 +101,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                m_driverController.getLeftY(),
-                m_driverController.getLeftX(),
-                m_driverController.getRightX(),
+                con1.getLeftY(),
+                con1.getLeftX(),
+                con1.getRightX(),
                 false),
             m_robotDrive));
 
@@ -130,22 +118,22 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //  index and shoot
-    circleButton1.whileTrue(
+    circleButton2.whileTrue(
         new RunCommand(
             indexer::startMotor,
             indexersub));
     // FOR CLAW IMPLEMENT A STOP-POINT
-    triangleButton1.whileTrue(
+    triangleButton2.whileTrue(
         new RunCommand(
             claw::openClaw,
             clawsub));
 
-    squareButton1.whileTrue(
+    squareButton2.whileTrue(
         new RunCommand(
             elevator::startMotor,
             elevatorsub));
 
-    circleButton2.whileTrue(
+    circleButton1.whileTrue(
         new RunCommand(
             intake::startMotor,
             intakesub));
@@ -160,8 +148,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  //public Command getAutonomousCommand() {
-  //  // An ExampleCommand will run in autonomous
-  //  return new exampleAuto(ClawCom);
-  //}
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return indexer;
+  }
 }
