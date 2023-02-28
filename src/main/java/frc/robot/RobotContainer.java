@@ -50,8 +50,11 @@ public class RobotContainer {
   public static IndexerSub indexersub = new IndexerSub(3);
   public static IndexerCom indexer = new IndexerCom(indexersub);
 
-  public static ClawSub clawsub = new ClawSub(4);
-  public static ClawCom claw = new ClawCom(clawsub);
+  // public static ClawSub clawsub = new ClawSub(4);
+  // public static ClawCom claw = new ClawCom(clawsub);
+
+  public static ClawSubTalon clawsub = new ClawSubTalon(0);
+  public static ClawComTalon claw = new ClawComTalon(clawsub);
 
   public static ElevatorSub elevatorsub = new ElevatorSub(5, 6);
   public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
