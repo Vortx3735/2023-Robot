@@ -34,7 +34,9 @@ public class SwerveModule {
           0,
           new TrapezoidProfile.Constraints(
               ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-              ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+              ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared
+            )
+        );
 
   /**
    * Constructs a SwerveModule.
@@ -88,7 +90,8 @@ public class SwerveModule {
    */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        m_driveEncoder.getRate(), new Rotation2d(m_turningEncoder.getDistance()));
+        m_driveEncoder.getRate(), new Rotation2d(m_turningEncoder.getDistance())
+    );
   }
 
   /**
@@ -98,7 +101,8 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        m_driveEncoder.getDistance(), new Rotation2d(m_turningEncoder.getDistance()));
+        m_driveEncoder.getDistance(), new Rotation2d(m_turningEncoder.getDistance())
+    );
   }
 
   /**

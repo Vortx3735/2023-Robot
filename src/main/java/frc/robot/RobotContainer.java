@@ -10,7 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -81,23 +84,28 @@ public class RobotContainer {
         new RunCommand(
             indexer::moveMotor,
             indexersub
-
         ));
 
     clawsub.setDefaultCommand(
         new RunCommand(
-            claw::stoppedClaw,
-            clawsub));
+            claw::stopClaw,
+            clawsub
+        )
+    );
 
     elevatorsub.setDefaultCommand(
         new RunCommand(
             elevator::stopMotor,
-            elevatorsub));
+            elevatorsub
+        )
+    );
 
     intakesub.setDefaultCommand(
         new RunCommand(
             intake::stopMotor,
-            intakesub));
+            intakesub
+        )
+    );
 
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
@@ -108,7 +116,9 @@ public class RobotContainer {
                 con1.getLeftX(),
                 con1.getRightX(),
                 false),
-            m_robotDrive));
+            m_robotDrive
+        )
+    );
 
   }
 
@@ -124,22 +134,35 @@ public class RobotContainer {
     circleButton2.whileTrue(
         new RunCommand(
             indexer::startMotor,
-            indexersub));
+            indexersub
+        )
+    );
     // FOR CLAW IMPLEMENT A STOP-POINT
     triangleButton2.whileTrue(
-        new RunCommand(
-            claw::openClaw,
-            clawsub));
+        new SequentialCommandGroup(
+            new ParallelRaceGroup (
+                new RunCommand(
+                claw::openClaw,
+                clawsub),
+                new WaitCommand(0.5)
+            ),
+            new RunCommand(claw::stopClaw, clawsub)
+        )
+    );
 
     squareButton2.whileTrue(
         new RunCommand(
             elevator::startMotor,
-            elevatorsub));
+            elevatorsub
+        )
+    );
 
     circleButton1.whileTrue(
         new RunCommand(
             intake::startMotor,
-            intakesub));
+            intakesub
+        )
+    );
   }
 
   // command group

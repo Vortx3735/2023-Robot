@@ -1,4 +1,3 @@
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -6,36 +5,34 @@
 package frc.robot.commands;
 
 
-import frc.robot.subsystems.ClawSubTalon;
+import frc.robot.subsystems.IntakeSub;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 
 /** An example command that uses an example subsystem. */
-public class ClawComTalon extends CommandBase {
+public class IntakeComTalon extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ClawSubTalon claw;
+  private final IntakeSub intake;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ClawComTalon(ClawSubTalon inputClaw) {
-    claw = inputClaw;
+  public IntakeComTalon(IntakeSub inputIntake) {
+    intake = inputIntake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(claw);
+    addRequirements(intake);
   }
 
-  public void stopClaw() {
-    claw.move(0);
+  public void startMotor() {
+    intake.move(1);
   }
 
-  public void openClaw() {
-    claw.move(-0.1);
+  public void stopMotor() {
+    intake.move(0);
   }
-  
-  
 
   // Called when the command is initially scheduled.
   @Override
