@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.8641032153859183,
-        "y": 4.841727290292188
+        "x": 1.8869415516608812,
+        "y": 0.5252817343241527
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.864103215385919,
-        "y": 4.841727290292188
+        "x": 5.746620382129653,
+        "y": 0.9820484598234163
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -16,7 +16,9 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "Score Cube"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -24,19 +26,19 @@
     },
     {
       "anchorPoint": {
-        "x": 4.284966860532012,
-        "y": 4.761793113329817
+        "x": 6.5231238154784,
+        "y": 0.9477909554109699
       },
       "prevControl": {
-        "x": 4.273547692394529,
-        "y": 4.761793113329817
+        "x": 5.986422913016767,
+        "y": 0.8450184421736366
       },
       "nextControl": {
-        "x": 4.296386028669494,
-        "y": 4.761793113329817
+        "x": 5.986422913016767,
+        "y": 0.8450184421736366
       },
-      "holonomicAngle": 180.0,
-      "isReversal": false,
+      "holonomicAngle": 0,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -49,21 +51,23 @@
     },
     {
       "anchorPoint": {
-        "x": 6.191967939491435,
-        "y": 4.556248086855149
+        "x": 1.8641032153859183,
+        "y": 1.027725132373342
       },
       "prevControl": {
-        "x": 5.244176984080465,
-        "y": 4.659020600092482
+        "x": 5.586752028204911,
+        "y": 0.7536650970737852
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "Score Cube"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -72,10 +76,9 @@
   ],
   "markers": [
     {
-      "position": 0.47999999999997073,
+      "position": 1.0,
       "names": [
-        "Spin",
-        "lkjfskdljg"
+        "Pick Cube"
       ]
     }
   ]

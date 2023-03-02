@@ -11,10 +11,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.kauailabs.navx.frc.*;
+
 
 public class DriveSubsystem extends SubsystemBase {
     // Robot swerve modules
@@ -51,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase {
             DriveConstants.kRearRightTurningEncoderReversed);
 
     // The gyro sensor
-    private final Gyro m_gyro = new ADXRS450_Gyro();
+    private final Gyro m_gyro = new AHRS();
 
     // Odometry class for tracking robot pose
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(

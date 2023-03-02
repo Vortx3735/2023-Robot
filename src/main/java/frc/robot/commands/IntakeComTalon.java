@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 
-import frc.robot.subsystems.IntakeSub;
+import frc.robot.subsystems.IntakeSubTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -13,24 +13,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class IntakeComTalon extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSub intake;
+  private final IntakeSubTalon intake;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeComTalon(IntakeSub inputIntake) {
+  public IntakeComTalon(IntakeSubTalon inputIntake) {
     intake = inputIntake;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
   }
 
-  public void startMotor() {
+  public void startIntake() {
     intake.move(1);
   }
 
-  public void stopMotor() {
+  public void stopIntake() {
     intake.move(0);
   }
 

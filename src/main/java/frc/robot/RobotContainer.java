@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 //import frc.robot.Constants.OIConstants;
@@ -29,23 +28,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public static VorTXController con1 = new VorTXController(0);
-  public static JoystickButton circleButton1 = con1.circle;
-  public static JoystickButton triangleButton1 = con1.triangle;
-  public static JoystickButton crossButton1 = con1.cross;
-  public static JoystickButton squareButton1 = con1.square;
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   public static VorTXController con2 = new VorTXController(1);
-  public static JoystickButton circleButton2 = con2.circle;
-  public static JoystickButton triangleButton2 = con2.triangle;
-  public static JoystickButton crossButton2 = con2.cross;
-  public static JoystickButton squareButton2 = con2.square;
-  public static JoystickButton leftBumper2 = con2.l2;
 
 
-  public static IntakeSub intakesub = new IntakeSub(1, 2);
-  public static IntakeCom intake = new IntakeCom(intakesub);
+  public static IntakeSubTalon intakesub = new IntakeSubTalon(1, 2);
+  public static IntakeComTalon intake = new IntakeComTalon(intakesub);
 
   //indexer uses same motor as intake
   //will have to remove all of the indexer in code
@@ -64,6 +54,9 @@ public class RobotContainer {
 
   public static PhotonSub limelight = new PhotonSub("ur mother");
   public static Gyro gyro = new Gyro();
+  public static DriveSubsystem swerve = new DriveSubsystem();
+
+  public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
 
   //intake = 2 motors
   //indexer = 0 motors (same motor as intake)
@@ -102,7 +95,7 @@ public class RobotContainer {
 
     intakesub.setDefaultCommand(
         new RunCommand(
-            intake::stopMotor,
+            intake::stopIntake,
             intakesub
         )
     );
@@ -131,14 +124,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //  index and shoot
-    circleButton2.whileTrue(
+    con2.circle.whileTrue(
         new RunCommand(
             indexer::startMotor,
             indexersub
         )
     );
     // FOR CLAW IMPLEMENT A STOP-POINT
-    triangleButton2.whileTrue(
+    con2.triangle.whileTrue(
         new SequentialCommandGroup(
             new ParallelRaceGroup (
                 new RunCommand(
@@ -150,16 +143,16 @@ public class RobotContainer {
         )
     );
 
-    squareButton2.whileTrue(
+    con2.square.whileTrue(
         new RunCommand(
             elevator::startMotor,
             elevatorsub
         )
     );
 
-    circleButton1.whileTrue(
+    con1.circle.whileTrue(
         new RunCommand(
-            intake::startMotor,
+            intake::startIntake,
             intakesub
         )
     );
@@ -176,6 +169,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return indexer;
+    return basicDoubleScoreTopAuto;
   }
 }
