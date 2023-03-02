@@ -152,6 +152,25 @@ public class RobotContainer {
         )
     );
 
+    con1.triangle.whileTrue(
+        new RunCommand(
+            elevator::startMotor,
+            elevatorsub
+        )
+    );
+
+    con1.square.whileTrue( 
+        new RunCommand(
+            elevator::reverseMotor,
+            elevatorsub)
+    );
+
+    con1.l1.whileTrue(
+        new RunCommand(
+            intake::push,
+            intakesub)
+    );
+
     // FOR CLAW IMPLEMENT A STOP-POINT
     con2.triangle.whileTrue(
         new SequentialCommandGroup(
@@ -167,18 +186,7 @@ public class RobotContainer {
         )
     );
 
-    con1.triangle.whileTrue(
-        new RunCommand(
-            elevator::startMotor,
-            elevatorsub
-        )
-    );
-
-    con1.square.whileTrue( 
-        new RunCommand(
-            elevator::reverseMotor,
-            elevatorsub)
-    );
+   
 
     
   }

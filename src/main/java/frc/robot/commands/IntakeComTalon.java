@@ -38,6 +38,10 @@ public class IntakeComTalon extends CommandBase {
     intake.move(-0.6);
   }
 
+  public void push() {
+    intake.toggleIntake();
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
