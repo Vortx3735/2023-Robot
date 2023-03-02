@@ -30,6 +30,7 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 5;
     public static final int kRearRightTurningMotorPort = 7;
 
+    // change these ports for cancoders
     public static final int[] kFrontLeftTurningEncoderPorts = new int[] {0, 1};
     public static final int[] kRearLeftTurningEncoderPorts = new int[] {2, 3};
     public static final int[] kFrontRightTurningEncoderPorts = new int[] {4, 5};

@@ -139,7 +139,9 @@ public class RobotContainer {
                 clawsub),
                 new WaitCommand(0.5)
             ),
-            new RunCommand(claw::stopClaw, clawsub)
+            new RunCommand(
+                claw::stopClaw, clawsub
+            )
         )
     );
 
