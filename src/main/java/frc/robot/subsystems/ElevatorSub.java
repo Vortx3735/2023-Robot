@@ -20,9 +20,9 @@ public class ElevatorSub extends SubsystemBase {
     ElevatorNeo1 = new CANSparkMax(ID1, MotorType.kBrushless);
     ElevatorNeo2 = new CANSparkMax(ID2, MotorType.kBrushless);
     ElevatorNeo2.follow(ElevatorNeo1, true);
-    ElevatorNeo1.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)20);
+    // ElevatorNeo1.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)20);
     ElevatorNeo1.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)0.1);
-    hold = new PIDController(5, 0, 0);
+    hold = new PIDController(0.01, 0, 0);
     setpoint = 0;
   }
 

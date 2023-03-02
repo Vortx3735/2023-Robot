@@ -27,7 +27,7 @@ public class IntakeCom extends CommandBase {
   }
 
   public void startMotor() {
-    intake.move(1);
+    intake.move(0.5);
   }
 
   public void stopMotor() {

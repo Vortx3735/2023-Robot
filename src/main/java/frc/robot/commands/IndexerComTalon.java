@@ -5,37 +5,37 @@
 package frc.robot.commands;
 
 
-import frc.robot.subsystems.IntakeSubTalon;
+import frc.robot.subsystems.IndexerSubTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 
 /** An example command that uses an example subsystem. */
-public class IntakeComTalon extends CommandBase {
+public class IndexerComTalon extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubTalon intake;
+  private final IndexerSubTalon indexer;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeComTalon(IntakeSubTalon inputIntake) {
-    intake = inputIntake;
+  public IndexerComTalon(IndexerSubTalon inputIndex) {
+    indexer = inputIndex;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    addRequirements(indexer);
   }
 
-  public void startIntake() {
-    intake.move(0.6);
+  public void start() {
+    indexer.move(0.6);
   }
 
-  public void stopIntake() {
-    intake.move(0);
+  public void stop() {
+    indexer.move(0);
   }
 
   public void rev() {
-    intake.move(-0.6);
+    indexer.move(-0.6);
   }
 
   // Called when the command is initially scheduled.

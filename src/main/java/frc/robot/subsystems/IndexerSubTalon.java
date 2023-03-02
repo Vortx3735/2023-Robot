@@ -9,15 +9,15 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakeSubTalon extends SubsystemBase {
-  TalonSRX IntakeTalon1;
+public class IndexerSubTalon extends SubsystemBase {
+  TalonSRX indexTalon;
   /** Creates a new ExampleSubsystem. */
-  public IntakeSubTalon(int ID1) {
-    IntakeTalon1 = new TalonSRX(ID1);
+  public IndexerSubTalon(int ID1) {
+    indexTalon = new TalonSRX(ID1);
   }
 
   public void move(double percentSpeed){
-    IntakeTalon1.set(TalonSRXControlMode.PercentOutput, percentSpeed);
+    indexTalon.set(TalonSRXControlMode.PercentOutput, percentSpeed);
   }
 
 

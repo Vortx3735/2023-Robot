@@ -36,8 +36,10 @@ public class IndexerCom extends CommandBase {
   }
 
   public void moveMotor() {
-    index.move(RobotContainer.con1.getLeftY());
+    index.move(0.5);
   }
+
+
 
   // Called when the command is initially scheduled.
   @Override

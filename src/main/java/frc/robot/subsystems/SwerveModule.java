@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -18,6 +20,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 public class SwerveModule {
@@ -26,6 +30,8 @@ public class SwerveModule {
 
   private final Encoder m_driveEncoder;
   private final CANCoderWrapper m_turningEncoder;
+
+  private final CANSparkMax driveEncoder;
 
   private final PIDController m_drivePIDController =
       new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
@@ -62,6 +68,8 @@ public class SwerveModule {
     m_driveMotor = new Spark(driveMotorChannel);
     m_turningMotor = new Spark(turningMotorChannel);
 
+    driveEncoder = new CANSparkMax(9, MotorType.kBrushless);
+
     m_driveEncoder = new Encoder(driveEncoderChannels[0], driveEncoderChannels[1]);
 
     m_turningEncoder = new CANCoderWrapper(turningEncoderChannels[0], "rio");
@@ -73,6 +81,8 @@ public class SwerveModule {
 
     // Set whether drive encoder should be reversed or not
     m_driveEncoder.setReverseDirection(driveEncoderReversed);
+
+    driveEncoder.setInverted(driveEncoderReversed);
 
     // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * pi) divided by the
@@ -97,9 +107,15 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
+
+
+    driveEncoder.get();
+
+
     return new SwerveModuleState(
         m_driveEncoder.getRate(), new Rotation2d(m_turningEncoder.getDistance())
     );
+    
   }
 
   /**
@@ -108,6 +124,9 @@ public class SwerveModule {
    * @return The current position of the module.
    */
   public SwerveModulePosition getPosition() {
+
+    driveEncoder.getEncoder().getPosition();
+
     return new SwerveModulePosition(
         m_driveEncoder.getDistance(), new Rotation2d(m_turningEncoder.getDistance())
     );
