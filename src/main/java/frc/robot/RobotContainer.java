@@ -36,6 +36,8 @@ public class RobotContainer {
     //  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     
     public static VorTXController con2 = new VorTXController(1);
+
+
     
     
     public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
@@ -53,8 +55,8 @@ public class RobotContainer {
     public static ClawSubTalon clawsub = new ClawSubTalon(13);
     public static ClawComTalon claw = new ClawComTalon(clawsub);
 
-    public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
-    public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
+    //public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
+    //public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
 
     public static PhotonSub limelight = new PhotonSub("ur mother");
     public static Gyro gyro = new Gyro();
@@ -77,6 +79,8 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
+    phCompressor.enableDigital();
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -93,12 +97,14 @@ public class RobotContainer {
         )
     );
 
+    /*
     elevatorsub.setDefaultCommand(
         new RunCommand(
             elevator::hold,
             elevatorsub
         )
     );
+    */
 
     intakesub.setDefaultCommand(
         new RunCommand(
@@ -116,9 +122,11 @@ public class RobotContainer {
                     con1.getLeftY(),
                     con1.getLeftX(),
                     con1.getRightX())),
-            swerve
+           swerve
         )
     );
+
+
 
   }
 
@@ -129,6 +137,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    con2.circle.whileTrue(new InstantCommand(
+        swerve::zerogyro,
+        swerve
+    )
+    );
 
     //  index and intake
     con1.circle.whileTrue(
@@ -158,21 +171,21 @@ public class RobotContainer {
         )
     );
 
-    con1.triangle.whileTrue(
-        new RunCommand(
-            elevator::startMotor,
-            elevatorsub
-        )
-    );
+    // con1.triangle.whileTrue(
+    //     new RunCommand(
+    //         elevator::startMotor,
+    //         elevatorsub
+    //     )
+    // );
 
-    con1.square.whileTrue( 
-        new RunCommand(
-            elevator::reverseMotor,
-            elevatorsub)
-    );
+    //  con1.square.whileTrue( 
+    //      new RunCommand(
+    //          elevator::reverseMotor,
+    //          elevatorsub)
+    //  );
 
     con1.l1.whileTrue(
-        new RunCommand(
+        new InstantCommand(
             intake::push,
             intakesub)
     );

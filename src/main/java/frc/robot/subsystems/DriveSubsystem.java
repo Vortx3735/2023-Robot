@@ -45,7 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
      * This is a measure of how fast the robot should be able to drive in a straight
      * line.
      */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 5880 / 60.0 *
             SdsModuleConfigurations.MK4I_L2.getDriveReduction() *
             SdsModuleConfigurations.MK4I_L2.getWheelDiameter() * Math.PI;
     /**
@@ -187,10 +187,14 @@ public class DriveSubsystem extends SubsystemBase {
         m_chassisSpeeds = chassisSpeeds;
     }
 
+    public void zerogyro(){
+        m_navx.setAngleAdjustment(0.0);
+    }
+
     @Override
     public void periodic() {
         SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+        //SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
         m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 states[0].angle.getRadians());
