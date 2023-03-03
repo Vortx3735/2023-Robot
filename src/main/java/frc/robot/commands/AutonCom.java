@@ -75,19 +75,19 @@ public class AutonCom {
 
 
     
-    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-      drivetrain::getPose, 
-      drivetrain::resetOdometry, 
-      Constants.DriveConstants.kDriveKinematics, 
-      new PIDConstants(1, 0, 0), //ETHANNNNNNN PID PID PID PID PID ENJOYYYYYY
-      new PIDConstants(1, 0, 0), //SAME HEREREEEEEEEE
-      drivetrain::setModuleStates, 
-      eventMap, 
-      true,
-      drivetrain
-    );
+    // SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+    //   drivetrain::getPose, 
+    //   drivetrain::resetOdometry, 
+    //   Constants.DriveConstants.kDriveKinematics, 
+    //   new PIDConstants(1, 0, 0), //ETHANNNNNNN PID PID PID PID PID ENJOYYYYYY
+    //   new PIDConstants(1, 0, 0), //SAME HEREREEEEEEEE
+    //   drivetrain::setModuleStates, 
+    //   eventMap, 
+    //   true,
+    //   drivetrain
+    // );
 
-    return autoBuilder.fullAuto(pathGroup);
+    return null;
   }
 
 }

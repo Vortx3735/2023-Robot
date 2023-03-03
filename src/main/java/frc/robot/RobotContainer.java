@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -63,11 +64,7 @@ public class RobotContainer {
     // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
 
     
-    public static SwerveModule frontLeft = new SwerveModule(0, 0, 14, false, false, 0);
-    public static SwerveModule frontRight = new SwerveModule(0, 0, 17, false, false, 0);
-    public static SwerveModule backLeft = new SwerveModule(0, 0, 16, true, true, 0);
-    public static SwerveModule backRight = new SwerveModule(0, 0, 15, true, true, 0);
-    public static DriveSubsystem swerve = new DriveSubsystem(frontLeft, backLeft, frontRight, backRight);
+    public static DriveSubsystem swerve = new DriveSubsystem();
     //intake = 2 motors
     //indexer = 0 motors (same motor as intake)
     //claw = 1 motors
@@ -115,10 +112,10 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> swerve.drive(
-                con1.getLeftY(),
-                con1.getLeftX(),
-                con1.getRightX(),
-                false),
+                new ChassisSpeeds(
+                    con1.getLeftY(),
+                    con1.getLeftX(),
+                    con1.getRightX())),
             swerve
         )
     );
