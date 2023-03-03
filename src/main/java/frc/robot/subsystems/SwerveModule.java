@@ -54,18 +54,17 @@ public class SwerveModule {
    * @param turningEncoderReversed Whether the turning encoder is reversed.
    */
   public SwerveModule(
-      int driveMotorChannel,
       int turningMotorChannel,
-      int[] driveEncoderChannels,
-      int[] turningEncoderChannels,
+      int sparkId,
+      int cancoderId,
       boolean driveEncoderReversed,
       boolean turningEncoderReversed) {
-    m_driveMotor = new Spark(driveMotorChannel);
+    m_driveMotor = new Spark(sparkId);
     m_turningMotor = new Spark(turningMotorChannel);
 
-    driveEncoder = new CANSparkMax(9, MotorType.kBrushless);
+    driveEncoder = new CANSparkMax(sparkId, MotorType.kBrushless);
 
-    m_turningEncoder = new CANCoderWrapper(turningEncoderChannels[0], "rio");
+    m_turningEncoder = new CANCoderWrapper(cancoderId, "rio");
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder

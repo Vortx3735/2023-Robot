@@ -19,54 +19,31 @@ import com.kauailabs.navx.frc.*;
 
 public class DriveSubsystem extends SubsystemBase {
     // Robot swerve modules
-    private final SwerveModule m_frontLeft = new SwerveModule(
-            DriveConstants.kFrontLeftDriveMotorPort,
-            DriveConstants.kFrontLeftTurningMotorPort,
-            DriveConstants.kFrontLeftDriveEncoderPorts,
-            DriveConstants.kFrontLeftTurningEncoderPorts,
-            DriveConstants.kFrontLeftDriveEncoderReversed,
-            DriveConstants.kFrontLeftTurningEncoderReversed);
+    private final SwerveModule m_frontLeft;
+    private final SwerveModule m_rearLeft;
+    private final SwerveModule m_rearRight;
+    private final SwerveModule m_frontRight;
+    private final Gyro m_gyro;
+    private final SwerveDriveOdometry m_odometry;
 
-    private final SwerveModule m_rearLeft = new SwerveModule(
-            DriveConstants.kRearLeftDriveMotorPort,
-            DriveConstants.kRearLeftTurningMotorPort,
-            DriveConstants.kRearLeftDriveEncoderPorts,
-            DriveConstants.kRearLeftTurningEncoderPorts,
-            DriveConstants.kRearLeftDriveEncoderReversed,
-            DriveConstants.kRearLeftTurningEncoderReversed);
+    public DriveSubsystem(SwerveModule frontLeft, SwerveModule rearLeft, SwerveModule frontRight, SwerveModule rearRight) {
+        m_frontLeft = frontLeft;
+        m_rearLeft = rearLeft;
+        m_rearRight = rearRight;
+        m_frontRight = frontRight;
+        m_gyro = new AHRS();
 
-    private final SwerveModule m_frontRight = new SwerveModule(
-            DriveConstants.kFrontRightDriveMotorPort,
-            DriveConstants.kFrontRightTurningMotorPort,
-            DriveConstants.kFrontRightDriveEncoderPorts,
-            DriveConstants.kFrontRightTurningEncoderPorts,
-            DriveConstants.kFrontRightDriveEncoderReversed,
-            DriveConstants.kFrontRightTurningEncoderReversed);
-
-    private final SwerveModule m_rearRight = new SwerveModule(
-            DriveConstants.kRearRightDriveMotorPort,
-            DriveConstants.kRearRightTurningMotorPort,
-            DriveConstants.kRearRightDriveEncoderPorts,
-            DriveConstants.kRearRightTurningEncoderPorts,
-            DriveConstants.kRearRightDriveEncoderReversed,
-            DriveConstants.kRearRightTurningEncoderReversed);
-
-    // The gyro sensor
-    private final Gyro m_gyro = new AHRS();
-
-    // Odometry class for tracking robot pose
-    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+        // Odometry class for tracking robot pose
+        m_odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
             m_gyro.getRotation2d(),
             new SwerveModulePosition[] {
-                    m_frontLeft.getPosition(),
-                    m_frontRight.getPosition(),
-                    m_rearLeft.getPosition(),
-                    m_rearRight.getPosition()
-            });
-
-    /** Creates a new DriveSubsystem. */
-    public DriveSubsystem() {
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_rearLeft.getPosition(),
+                m_rearRight.getPosition()
+            }
+        );
     }
 
     @Override

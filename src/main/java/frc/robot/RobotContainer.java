@@ -28,51 +28,57 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+    // The robot's subsystems and commands are defined here...
+    
+    public static VorTXController con1 = new VorTXController(0);
+    
+    //  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    
+    public static VorTXController con2 = new VorTXController(1);
+    
+    
+    public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
+    public static IntakeComTalon intake = new IntakeComTalon(intakesub);
+    
+    //indexer uses same motor as intake
+    //will have to remove all of the indexer in code
+    //reorder Spark ids here once removed
+    public static IndexerSubTalon indexersub = new IndexerSubTalon(26);
+    public static IndexerComTalon indexer = new IndexerComTalon(indexersub);
+    
+    // public static ClawSub clawsub = new ClawSub(4);
+    // public static ClawCom claw = new ClawCom(clawsub);
 
-  public static VorTXController con1 = new VorTXController(0);
+    public static ClawSubTalon clawsub = new ClawSubTalon(13);
+    public static ClawComTalon claw = new ClawComTalon(clawsub);
 
-  //  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
+    public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
 
-  public static VorTXController con2 = new VorTXController(1);
+    public static PhotonSub limelight = new PhotonSub("ur mother");
+    public static Gyro gyro = new Gyro();
+    public static Compressor phCompressor = new Compressor(12, PneumaticsModuleType.REVPH);
+    // public static DriveSubsystem swerve = new DriveSubsystem();
+
+    // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
 
 
-  public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
-  public static IntakeComTalon intake = new IntakeComTalon(intakesub);
+    public static SwerveModule frontLeft = new SwerveModule(0, 0, 0, false, false);
+    public static SwerveModule frontRight = new SwerveModule(0, 0, 0, false, false);
+    public static SwerveModule backLeft = new SwerveModule(0, 0, 0, true, true);
+    public static SwerveModule backRight = new SwerveModule(0, 0, 0, true, true);
+    public static DriveSubsystem swerve = new DriveSubsystem(frontLeft, backLeft, frontRight, backRight);
+    //intake = 2 motors
+    //indexer = 0 motors (same motor as intake)
+    //claw = 1 motors
+    //elevator = 2 motors
+    //ramp = 2 motors
+    //swerve = 8 motors
+    //add 1-2 maybe
+    //current total = 15 motors
 
-  //indexer uses same motor as intake
-  //will have to remove all of the indexer in code
-  //reorder Spark ids here once removed
-  public static IndexerSubTalon indexersub = new IndexerSubTalon(26);
-  public static IndexerComTalon indexer = new IndexerComTalon(indexersub);
-
-  // public static ClawSub clawsub = new ClawSub(4);
-  // public static ClawCom claw = new ClawCom(clawsub);
-
-  public static ClawSubTalon clawsub = new ClawSubTalon(13);
-  public static ClawComTalon claw = new ClawComTalon(clawsub);
-
-  public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
-  public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
-
-  public static PhotonSub limelight = new PhotonSub("ur mother");
-  public static Gyro gyro = new Gyro();
-  public static Compressor phCompressor = new Compressor(12, PneumaticsModuleType.REVPH);
-  // public static DriveSubsystem swerve = new DriveSubsystem();
-
-  // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
-
-  //intake = 2 motors
-  //indexer = 0 motors (same motor as intake)
-  //claw = 1 motors
-  //elevator = 2 motors
-  //ramp = 2 motors
-  //swerve = 8 motors
-  //add 1-2 maybe
-  //current total = 15 motors
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    public RobotContainer() {
 
     // Configure the button bindings
     configureButtonBindings();
@@ -104,18 +110,18 @@ public class RobotContainer {
         )
     );
 
-    //    m_robotDrive.setDefaultCommand(
-    //        // The left stick controls translation of the robot.
-    //        // Turning is controlled by the X axis of the right stick.
-    //        new RunCommand(
-    //            () -> m_robotDrive.drive(
-    //                con1.getLeftY(),
-    //                con1.getLeftX(),
-    //                con1.getRightX(),
-    //                false),
-    //            m_robotDrive
-    //        )
-    //    );
+    swerve.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> swerve.drive(
+                con1.getLeftY(),
+                con1.getLeftX(),
+                con1.getRightX(),
+                false),
+            swerve
+        )
+    );
 
   }
 
