@@ -26,7 +26,7 @@ public final class Constants {
   public static final double DRIVETRAIN_WHEELBASE_METERS = 0.632;
 
   public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -Math.toRadians(142.471);
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(0.0);
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(79.717);
   public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(142.559);
   public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(19.512);
   //152.578
