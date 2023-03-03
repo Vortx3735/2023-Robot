@@ -62,10 +62,12 @@ public class RobotContainer {
 
     // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
 
-
-    public static SwerveModule backLeft = new SwerveModule(5, 6, 16, true, true, Constants.ModuleConstants.backLeftOffset);
+    
+    public static SwerveModule frontLeft = new SwerveModule(0, 0, 14, false, false, 0);
+    public static SwerveModule frontRight = new SwerveModule(0, 0, 17, false, false, 0);
+    public static SwerveModule backLeft = new SwerveModule(0, 0, 16, true, true, 0);
+    public static SwerveModule backRight = new SwerveModule(0, 0, 15, true, true, 0);
     public static DriveSubsystem swerve = new DriveSubsystem(frontLeft, backLeft, frontRight, backRight);
-   
     //intake = 2 motors
     //indexer = 0 motors (same motor as intake)
     //claw = 1 motors
