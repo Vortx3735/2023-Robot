@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
+
+import edu.wpi.first.hal.EncoderJNI;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -22,6 +25,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.jni.CANSparkMaxJNI;
 
 
 public class SwerveModule {
@@ -83,6 +87,8 @@ public class SwerveModule {
     m_driveEncoder.setReverseDirection(driveEncoderReversed);
 
     driveEncoder.setInverted(driveEncoderReversed);
+    // driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerPulse);
+    // new SparkMaxRelativeEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerPulse);
 
     // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * pi) divided by the

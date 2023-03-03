@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Score Cube 1"
+          "Score Cube"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -66,7 +66,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Score Cube 2"
+          "Score Cube"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -78,7 +78,7 @@
     {
       "position": 1.0,
       "names": [
-        "Pick Cube 1"
+        "Pick Cube"
       ]
     }
   ]

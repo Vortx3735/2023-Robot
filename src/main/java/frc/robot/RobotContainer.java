@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -47,7 +48,7 @@ public class RobotContainer {
   // public static ClawSub clawsub = new ClawSub(4);
   // public static ClawCom claw = new ClawCom(clawsub);
 
-  public static ClawSubTalon clawsub = new ClawSubTalon(0);
+  public static ClawSubTalon clawsub = new ClawSubTalon(13);
   public static ClawComTalon claw = new ClawComTalon(clawsub);
 
   public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
@@ -202,6 +203,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return intake;
+    return new InstantCommand();
   }
 }

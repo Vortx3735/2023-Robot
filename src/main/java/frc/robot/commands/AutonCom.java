@@ -10,16 +10,24 @@ import com.pathplanner.lib.PathPlanner;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.collections4.map.AbstractMapDecorator;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.IntakeSubTalon;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 
 
 
@@ -33,10 +41,42 @@ public class AutonCom {
   
 
 
-  public static Command makeAutoCommand(DriveSubsystem drivetrain, String name, IntakeSubTalon intakeSub, IntakeComTalon intake) {
+  public static Command makeAutoCommand(DriveSubsystem drivetrain, String name) {
     
     List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(name, new PathConstraints(4, 3));
-    eventMap.put("Score Cube 1", new InstantCommand(intake::startIntake, intakeSub));
+
+    eventMap.put("Score Cube", new ParallelRaceGroup(
+      new ParallelCommandGroup(
+        new RunCommand(
+          RobotContainer.intake::rev,
+          RobotContainer.intakesub
+        ),
+        new RunCommand(
+          RobotContainer.indexer::rev,
+          RobotContainer.intakesub
+        )
+      ),
+      new WaitCommand(2)
+    ));
+      
+
+    eventMap.put("Pick Cube", new ParallelRaceGroup(
+      new ParallelCommandGroup(
+        new RunCommand(
+          RobotContainer.intake::startIntake,
+          RobotContainer.intakesub
+        ),
+        new RunCommand(
+          RobotContainer.indexer::start,
+          RobotContainer.intakesub
+        )
+      ),
+      new WaitCommand(2)
+    ));
+
+    eventMap.put("Pick Cube", new InstantCommand(RobotContainer.intake::startIntake, RobotContainer.intakesub));
+
+
     
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       drivetrain::getPose, 
@@ -52,4 +92,5 @@ public class AutonCom {
 
     return autoBuilder.fullAuto(pathGroup);
   }
+
 }
