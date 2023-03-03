@@ -10,7 +10,6 @@ import com.pathplanner.lib.PathPlanner;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.collections4.map.AbstractMapDecorator;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
@@ -18,8 +17,6 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.subsystems.IntakeSubTalon;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;

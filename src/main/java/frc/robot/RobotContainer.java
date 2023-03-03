@@ -8,7 +8,7 @@ package frc.robot;
 // import javax.print.attribute.standard.JobHoldUntil;
 
 import edu.wpi.first.wpilibj.GenericHID;
-
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 //import frc.robot.Constants.OIConstants;
@@ -56,6 +57,7 @@ public class RobotContainer {
 
   public static PhotonSub limelight = new PhotonSub("ur mother");
   public static Gyro gyro = new Gyro();
+  public static Compressor phCompressor = new Compressor(12, PneumaticsModuleType.REVPH);
   // public static DriveSubsystem swerve = new DriveSubsystem();
 
   // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);

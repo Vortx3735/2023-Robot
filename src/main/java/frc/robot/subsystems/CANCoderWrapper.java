@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenixpro.hardware.CANcoder;
 
 
 public class CANCoderWrapper extends CANCoder {
