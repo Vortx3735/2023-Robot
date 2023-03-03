@@ -112,6 +112,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param desiredStates The desired SwerveModule states.
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
+        System.out.println("twying to dwive");
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
         m_frontLeft.setDesiredState(desiredStates[0]);

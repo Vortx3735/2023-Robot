@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.CANCoder;
+import frc.robot.Constants;
+
+import edu.wpi.first.wpilibj.Encoder;
 
 
 public class CANCoderWrapper extends CANCoder {
@@ -35,9 +38,10 @@ public class CANCoderWrapper extends CANCoder {
     }
 
     public double getDistance() {
-        double numRotations = distancePerPulse / super.getPosition();
-        double radians = numRotations * Math.PI;
-        return radians;
+        double circumference = Constants.ModuleConstants.kWheelDiameterMeters * Math.PI;
+        double distance = super.getPosition() * circumference;
+        return distance;
+        
     }
 
 

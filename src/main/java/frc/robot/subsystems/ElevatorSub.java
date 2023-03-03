@@ -41,7 +41,7 @@ public class ElevatorSub extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println(ElevatorNeo1.getEncoder().getPosition());
+    //System.out.println(ElevatorNeo1.getEncoder().getPosition());
   }
 
   @Override

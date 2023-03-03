@@ -17,8 +17,8 @@ public class IntakeSubTalon extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public IntakeSubTalon(int ID1) {
     IntakeTalon1 = new TalonSRX(ID1);
-    phDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
-    phDoubleSolenoid.set(kReverse);
+    //phDoubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+    //phDoubleSolenoid.set(kReverse);
   }
 
   public void move(double percentSpeed){

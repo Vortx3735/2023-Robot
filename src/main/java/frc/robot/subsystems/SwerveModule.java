@@ -17,16 +17,27 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.opencv.ml.ANN_MLP;
+
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.sensors.SensorTimeBase;
+import com.ctre.phoenixpro.configs.CANcoderConfiguration;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 
 public class SwerveModule {
-  private final Spark m_driveMotor;
-  private final Spark m_turningMotor;
+  private final CANSparkMax m_driveMotor;
+  private final CANSparkMax m_turningMotor;
+  private final CANCoder cancoder;
+  private final CANCoderConfiguration cancoderConfig;
+  private final double offset;
 
-  private final CANCoderWrapper m_turningEncoder;
+  private final RelativeEncoder driveEncoder;
 
-  private final CANSparkMax driveEncoder;
 
   private final PIDController m_drivePIDController =
       new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
@@ -58,13 +69,22 @@ public class SwerveModule {
       int sparkId,
       int cancoderId,
       boolean driveEncoderReversed,
-      boolean turningEncoderReversed) {
-    m_driveMotor = new Spark(sparkId);
-    m_turningMotor = new Spark(turningMotorChannel);
+      boolean turningEncoderReversed,
+      double CANCoderOffset) {
+    m_driveMotor = new CANSparkMax(sparkId, MotorType.kBrushless);
+    m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
+        offset = CANCoderOffset;
+      cancoder = new CANCoder(cancoderId);
+      cancoderConfig = new CANCoderConfiguration();
+      cancoderConfig.unitString = "rad";
+      cancoderConfig.sensorCoefficient = 2 * Math.PI;
+      cancoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
+      cancoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+      cancoder.configAllSettings(cancoderConfig);
+      
 
-    driveEncoder = new CANSparkMax(sparkId, MotorType.kBrushless);
-
-    m_turningEncoder = new CANCoderWrapper(cancoderId, "rio");
+    // m_turningEncoder = new CANCoderWrapper(cancoderId, "rio");
+    // m_turningEncoder.configMagnetOffset(CANCoderOffset);
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
@@ -72,17 +92,16 @@ public class SwerveModule {
 
     // Set whether drive encoder should be reversed or not
 
-    driveEncoder.setInverted(driveEncoderReversed);
-
-    driveEncoder.getEncoder().setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerPulse);
+    driveEncoder = m_driveMotor.getEncoder();
+    driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderDistancePerPulse);
 
     // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * pi) divided by the
     // encoder resolution.
-    m_turningEncoder.setDistancePerPulse(ModuleConstants.kTurningEncoderDistancePerPulse);
+    // m_turningEncoder.setDistancePerPulse(ModuleConstants.kTurningEncoderDistancePerPulse);
 
     // Set whether turning encoder should be reversed or not
-    m_turningEncoder.setRev(turningEncoderReversed);
+    // m_turningEncoder.setRev(turningEncoderReversed);
 
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
@@ -101,11 +120,11 @@ public class SwerveModule {
   public SwerveModuleState getState() {
 
 
-    driveEncoder.get();
+    driveEncoder.getPosition();
 
 
     return new SwerveModuleState(
-        driveEncoder.get(), new Rotation2d(m_turningEncoder.getDistance())
+        driveEncoder.getPosition(), new Rotation2d(coterminal(cancoder.getPosition() - offset))
     );
     
   }
@@ -117,10 +136,10 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
 
-    driveEncoder.getEncoder().getPosition();
+    driveEncoder.getPosition();
 
     return new SwerveModulePosition(
-        driveEncoder.getEncoder().getPosition(), new Rotation2d(m_turningEncoder.getDistance())
+        driveEncoder.getPosition(), new Rotation2d(coterminal(cancoder.getPosition() - offset))
     );
   }
 
@@ -132,24 +151,33 @@ public class SwerveModule {
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(m_turningEncoder.getDistance()));
+        SwerveModuleState.optimize(desiredState, new Rotation2d(coterminal(cancoder.getPosition() - offset)));
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
-        m_drivePIDController.calculate(driveEncoder.get(), state.speedMetersPerSecond);
+        m_drivePIDController.calculate(driveEncoder.getPosition(), state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
-        m_turningPIDController.calculate(m_turningEncoder.getDistance(), state.angle.getRadians());
+        m_turningPIDController.calculate(coterminal(cancoder.getPosition() - offset), state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
+    System.out.println("dwiving at " + driveOutput + "!!!!!");
     m_turningMotor.set(turnOutput);
+    System.out.println("turning at " + turnOutput + "!!!");
   }
 
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
-    driveEncoder.getEncoder().setPosition(0);
-    m_turningEncoder.reset();
+    driveEncoder.setPosition(0);
+    cancoder.setPosition(0);
+  }
+
+  private static double coterminal(double rotation) {
+    double coterminal = rotation;
+    double full = Math.signum(rotation) * 2 * Math.PI;
+    while (coterminal > Math.PI || coterminal < -Math.PI) coterminal -= full;
+    return coterminal;
   }
 }

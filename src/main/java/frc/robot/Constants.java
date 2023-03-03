@@ -76,6 +76,11 @@ public final class Constants {
   }
 
   public static final class ModuleConstants {
+    
+    public static final double backLeftOffset = 152.578;
+    public static final double backRightOffset = 249.609;
+    public static final double frontLeftOffset = 323.350;
+    public static final double frontRightOffset = 197.227;
     public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2 * Math.PI;
     public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2 * Math.PI;
 
@@ -89,9 +94,9 @@ public final class Constants {
         // Assumes the encoders are on a 1:1 reduction with the module shaft.
         (2 * Math.PI) / (double) kEncoderCPR;
 
-    public static final double kPModuleTurningController = 1;
+    public static final double kPModuleTurningController = 0.04;
 
-    public static final double kPModuleDriveController = 1;
+    public static final double kPModuleDriveController = 0.00;
   }
 
   public static final class OIConstants {
@@ -108,9 +113,12 @@ public final class Constants {
     public static final double kPYController = 1;
     public static final double kPThetaController = 1;
 
+
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
+
+
 }
