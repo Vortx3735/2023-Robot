@@ -30,14 +30,20 @@ public final class Constants {
   public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(148.8);
   public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(22.412);*/
 
-  public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -Math.toRadians(142.471+180);
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(79.717+180);
-  public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(142.559+180);
-  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(19.512+180);
+  public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -Math.toRadians(147.568);
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(80.684);
+  public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(144.229);
+  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(18.018);
   //152.578
   //249.609
   //323.350
   //197.227
+
+  // was mostly working
+  // 142.471
+  // 79.717
+  // 142.559
+  // 19.512
 
   public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 14;
   public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17;

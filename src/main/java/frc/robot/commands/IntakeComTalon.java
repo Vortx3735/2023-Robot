@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 
+import frc.robot.subsystems.IndexerSubTalon;
 import frc.robot.subsystems.IntakeSubTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -27,7 +28,7 @@ public class IntakeComTalon extends CommandBase {
   }
 
   public void startIntake() {
-    intake.move(0.1);
+    intake.move(0.7);
   }
 
   public void stopIntake() {
@@ -35,7 +36,7 @@ public class IntakeComTalon extends CommandBase {
   }
 
   public void rev() {
-    intake.move(-0.1);
+    intake.move(-0.7);
   }
 
   public void push() {

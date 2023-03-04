@@ -37,11 +37,12 @@ public class RobotContainer {
     
     public static VorTXController con2 = new VorTXController(1);
 
-
-    
-    
-    public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
+    public static IntakeSubTalon intakesub = new IntakeSubTalon(13);
     public static IntakeComTalon intake = new IntakeComTalon(intakesub);
+    
+    
+    //public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
+    //public static IntakeComTalon intake = new IntakeComTalon(intakesub);
     
     //indexer uses same motor as intake
     //will have to remove all of the indexer in code
@@ -52,8 +53,8 @@ public class RobotContainer {
     // public static ClawSub clawsub = new ClawSub(4);
     // public static ClawCom claw = new ClawCom(clawsub);
 
-    public static ClawSubTalon clawsub = new ClawSubTalon(13);
-    public static ClawComTalon claw = new ClawComTalon(clawsub);
+    //public static ClawSubTalon clawsub = new ClawSubTalon(13);
+    //public static ClawComTalon claw = new ClawComTalon(clawsub);
 
     //public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
     //public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
@@ -89,13 +90,20 @@ public class RobotContainer {
             indexer::stop,
             indexersub
         ));
-
+    intakesub.setDefaultCommand(
+        new RunCommand(
+            intake::startIntake,
+            intakesub
+        )
+    );
+    
+/*
     clawsub.setDefaultCommand(
         new RunCommand(
             claw::stopClaw,
             clawsub
         )
-    );
+    );*/
 
     /*
     elevatorsub.setDefaultCommand(
@@ -119,9 +127,9 @@ public class RobotContainer {
         new RunCommand(
             () -> swerve.drive(
                 new ChassisSpeeds(
-                    con1.getLeftY(),
-                    con1.getLeftX(),
-                    con1.getRightX())),
+                    con1.getLeftY()*3.5,
+                    con1.getLeftX()*3.5,
+                    con1.getRightX()*3.5)),
            swerve
         )
     );
@@ -144,7 +152,7 @@ public class RobotContainer {
     );
 
     //  index and intake
-    con1.circle.whileTrue(
+    con2.circle.whileTrue(
         new ParallelCommandGroup(
             new RunCommand(
                 indexer::start,
@@ -158,7 +166,7 @@ public class RobotContainer {
     );
 
     // outtake
-    con1.cross.whileTrue(
+    con2.cross.whileTrue(
         new ParallelCommandGroup(
             new RunCommand(
                 indexer::rev,
@@ -184,26 +192,26 @@ public class RobotContainer {
     //          elevatorsub)
     //  );
 
-    con1.l1.whileTrue(
+    con2.l1.whileTrue(
         new InstantCommand(
             intake::push,
             intakesub)
     );
 
     // FOR CLAW IMPLEMENT A STOP-POINT
-    con2.triangle.whileTrue(
-        new SequentialCommandGroup(
-            new ParallelRaceGroup (
-                new RunCommand(
-                claw::openClaw,
-                clawsub),
-                new WaitCommand(0.5)
-            ),
-            new RunCommand(
-                claw::stopClaw, clawsub
-            )
-        )
-    );
+    // con2.triangle.whileTrue(
+    //     new SequentialCommandGroup(
+    //         new ParallelRaceGroup (
+    //             new RunCommand   (
+    //             claw::openClaw,
+    //             clawsub),
+    //             new WaitCommand(0.5)
+    //         ),
+    //         new RunCommand(
+    //             claw::stopClaw, clawsub
+    //         )
+    //     )
+    // );
 
    
 
@@ -221,6 +229,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+    return AutonCom.makeAutoCommand(swerve, "Straight");
   }
 }

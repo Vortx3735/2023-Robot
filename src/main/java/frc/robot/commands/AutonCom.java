@@ -34,7 +34,7 @@ public class AutonCom {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   
-  private static HashMap<String, Command> eventMap = new HashMap<>();
+  //private static HashMap<String, Command> eventMap = new HashMap<>();
   
 
 
@@ -42,36 +42,36 @@ public class AutonCom {
     
     List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(name, new PathConstraints(4, 3));
 
-    eventMap.put("Score Cube", new ParallelRaceGroup(
-      new ParallelCommandGroup(
-        new RunCommand(
-          RobotContainer.intake::rev,
-          RobotContainer.intakesub
-        ),
-        new RunCommand(
-          RobotContainer.indexer::rev,
-          RobotContainer.intakesub
-        )
-      ),
-      new WaitCommand(2)
-    ));
+    // eventMap.put("Score Cube", new ParallelRaceGroup(
+    //   new ParallelCommandGroup(
+    //     new RunCommand(
+    //       RobotContainer.intake::rev,
+    //       RobotContainer.intakesub
+    //     ),
+    //     new RunCommand(
+    //       RobotContainer.indexer::rev,
+    //       RobotContainer.indexersub
+    //     )
+    //   ),
+    //   new WaitCommand(2)
+    // ));
       
 
-    eventMap.put("Pick Cube", new ParallelRaceGroup(
-      new ParallelCommandGroup(
-        new RunCommand(
-          RobotContainer.intake::startIntake,
-          RobotContainer.intakesub
-        ),
-        new RunCommand(
-          RobotContainer.indexer::start,
-          RobotContainer.intakesub
-        )
-      ),
-      new WaitCommand(2)
-    ));
+    // eventMap.put("Pick Cube", new ParallelRaceGroup(
+    //   new ParallelCommandGroup(
+    //     new RunCommand(
+    //       RobotContainer.intake::startIntake,
+    //       RobotContainer.intakesub
+    //     ),
+    //     new RunCommand(
+    //       RobotContainer.indexer::start,
+    //       RobotContainer.indexersub
+    //     )
+    //   ),
+    //   new WaitCommand(2)
+    // ));
 
-    eventMap.put("Pick Cube", new InstantCommand(RobotContainer.intake::startIntake, RobotContainer.intakesub));
+    // eventMap.put("Pick Cube", new InstantCommand(RobotContainer.intake::startIntake, RobotContainer.intakesub));
 
 
     
