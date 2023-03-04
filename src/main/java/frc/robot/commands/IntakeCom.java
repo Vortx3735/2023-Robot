@@ -9,11 +9,11 @@ public class IntakeCom {
     }
 
     public void startIntake() {
-        intake.run(0.2);
+        intake.run(0.1);
     }
 
     public void rev() {
-        intake.run(-0.2);
+        intake.run(-0.1);
     }
 
     public void stop() {
