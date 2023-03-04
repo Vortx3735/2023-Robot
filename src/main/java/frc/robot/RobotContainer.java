@@ -127,8 +127,8 @@ public class RobotContainer {
         new RunCommand(
             () -> swerve.drive(
                 new ChassisSpeeds(
-                    -con1.getLeftY(),
-                    -con1.getLeftX(),
+                    -con1.getLeftY()*2,
+                    -con1.getLeftX()*2,
                     -con1.getRightX()*2)),
            swerve
         )
@@ -230,6 +230,32 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+
+    //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
+    return new SequentialCommandGroup(
+        new ParallelRaceGroup(
+            new RunCommand(
+            () -> swerve.drive(
+                new ChassisSpeeds(
+                    -2,
+                    0,
+                    0)),
+            swerve
+            ),
+        new WaitCommand(0.35)
+        ),
+        new ParallelRaceGroup(
+            new RunCommand(
+                () -> swerve.drive(
+                    new ChassisSpeeds(
+                        1,
+                        0,
+                        0)),
+            swerve
+            ),
+            new WaitCommand(4)
+        )
+
+    );
   }
 }
