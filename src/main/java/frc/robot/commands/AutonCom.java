@@ -34,13 +34,16 @@ public class AutonCom {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   
-  //private static HashMap<String, Command> eventMap = new HashMap<>();
+  private static HashMap<String, Command> eventMap = new HashMap<>();
   
 
 
   public static Command makeAutoCommand(DriveSubsystem drivetrain, String name) {
     
-    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(name, new PathConstraints(4, 3));
+    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(name, new PathConstraints(0, 0));
+
+
+    System.out.println("ur mother is stupid and fat and i did her ka jsdfk haksd jfhjias jdfjosjadfk" + pathGroup.size());
 
     // eventMap.put("Score Cube", new ParallelRaceGroup(
     //   new ParallelCommandGroup(

@@ -127,9 +127,9 @@ public class RobotContainer {
         new RunCommand(
             () -> swerve.drive(
                 new ChassisSpeeds(
-                    con1.getLeftY()*3.5,
-                    con1.getLeftX()*3.5,
-                    con1.getRightX()*3.5)),
+                    -con1.getLeftY(),
+                    -con1.getLeftX(),
+                    -con1.getRightX()*2)),
            swerve
         )
     );
@@ -193,9 +193,10 @@ public class RobotContainer {
     //  );
 
     con2.l1.whileTrue(
-        new InstantCommand(
+            new InstantCommand(
             intake::push,
             intakesub)
+        
     );
 
     // FOR CLAW IMPLEMENT A STOP-POINT
@@ -229,6 +230,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return AutonCom.makeAutoCommand(swerve, "Straight");
+    return new InstantCommand();
   }
 }

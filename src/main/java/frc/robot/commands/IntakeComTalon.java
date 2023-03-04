@@ -28,7 +28,7 @@ public class IntakeComTalon extends CommandBase {
   }
 
   public void startIntake() {
-    intake.move(0.7);
+    intake.move(0.3);
   }
 
   public void stopIntake() {
@@ -36,7 +36,7 @@ public class IntakeComTalon extends CommandBase {
   }
 
   public void rev() {
-    intake.move(-0.7);
+    intake.move(-0.3);
   }
 
   public void push() {
