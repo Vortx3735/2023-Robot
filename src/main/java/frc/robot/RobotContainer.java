@@ -53,8 +53,8 @@ public class RobotContainer {
     // public static ClawSub clawsub = new ClawSub(4);
     // public static ClawCom claw = new ClawCom(clawsub);
 
-    //public static ClawSubTalon clawsub = new ClawSubTalon(13);
-    //public static ClawComTalon claw = new ClawComTalon(clawsub);
+    public static ClawSubTalon clawsub = new ClawSubTalon(13);
+    public static ClawComTalon claw = new ClawComTalon(clawsub);
 
     //public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
     //public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
@@ -97,13 +97,13 @@ public class RobotContainer {
         )
     );
     
-/*
+
     clawsub.setDefaultCommand(
         new RunCommand(
             claw::stopClaw,
             clawsub
         )
-    );*/
+    );
 
     /*
     elevatorsub.setDefaultCommand(
@@ -199,20 +199,20 @@ public class RobotContainer {
         
     );
 
-    // FOR CLAW IMPLEMENT A STOP-POINT
-    // con2.triangle.whileTrue(
-    //     new SequentialCommandGroup(
-    //         new ParallelRaceGroup (
-    //             new RunCommand   (
-    //             claw::openClaw,
-    //             clawsub),
-    //             new WaitCommand(0.5)
-    //         ),
-    //         new RunCommand(
-    //             claw::stopClaw, clawsub
-    //         )
-    //     )
-    // );
+    //FOR CLAW IMPLEMENT A STOP-POINT
+    con2.triangle.whileTrue(
+        new SequentialCommandGroup(
+            new ParallelRaceGroup (
+                new RunCommand   (
+                claw::openClaw,
+                clawsub),
+                new WaitCommand(0.5)
+            ),
+            new RunCommand(
+                claw::stopClaw, clawsub
+            )
+        )
+    );
 
    
 
