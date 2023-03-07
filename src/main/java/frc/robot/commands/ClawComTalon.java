@@ -32,12 +32,10 @@ public class ClawComTalon extends CommandBase {
   }
 
   public void openClaw() {
-    claw.move(-.6);
+    claw.move(-0.1);
   }
   
-  public void closeClaw() {
-    claw.move(.6);
-  }
+  
 
   // Called when the command is initially scheduled.
   @Override
