@@ -68,6 +68,7 @@ public class RobotContainer {
 
     
     public static DriveSubsystem swerve = new DriveSubsystem();
+
     //intake = 2 motors
     //indexer = 0 motors (same motor as intake)
     //claw = 1 motors
@@ -80,8 +81,9 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
-    phCompressor.enableDigital();
+        phCompressor.enableDigital();
 
+<<<<<<< Updated upstream
     // Configure the button bindings
     configureButtonBindings();
 
@@ -104,35 +106,62 @@ public class RobotContainer {
             clawsub
         )
     );
+=======
+        // Configure the button bindings
+        configureButtonBindings();
+>>>>>>> Stashed changes
 
+        indexersub.setDefaultCommand(
+            new RunCommand(
+                indexer::stop,
+                indexersub
+            ));
+        intakesub.setDefaultCommand(
+            new RunCommand(
+                intake::startIntake,
+                intakesub
+            )
+        );
+        
     /*
-    elevatorsub.setDefaultCommand(
-        new RunCommand(
-            elevator::hold,
-            elevatorsub
-        )
-    );
-    */
+        clawsub.setDefaultCommand(
+            new RunCommand(
+                claw::stopClaw,
+                clawsub
+            )
+        );*/
 
-    intakesub.setDefaultCommand(
-        new RunCommand(
-            intake::stopIntake,
-            intakesub
-        )
-    );
+        /*
+        elevatorsub.setDefaultCommand(
+            new RunCommand(
+                elevator::hold,
+                elevatorsub
+            )
+        );
+        */
 
-    swerve.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> swerve.drive(
-                new ChassisSpeeds(
-                    -con1.getLeftY()*3,
-                    -con1.getLeftX()*3,
-                    -con1.getRightX()*3)),
-           swerve
-        )
-    );
+        intakesub.setDefaultCommand(
+            new RunCommand(
+                intake::stopIntake,
+                intakesub
+            )
+        );
+
+        swerve.setDefaultCommand(
+            // The left stick controls translation of the robot.
+            // Turning is controlled by the X axis of the right stick.
+            // R1 changes speed to triple
+            // RS changes speed to normal
+            // LS changes speed to half
+            new RunCommand(
+                () -> swerve.drive(
+                    new ChassisSpeeds(
+                        -con1.getLeftY(),
+                        -con1.getLeftX(),
+                        -con1.getRightX())),
+            swerve
+            )
+        );
 
 
 
@@ -145,10 +174,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    con2.circle.whileTrue(new InstantCommand(
-        swerve::zerogyro,
-        swerve
-    )
+    con2.circle.whileTrue(
+        new InstantCommand(
+            swerve::zerogyro,
+            swerve
+        )
     );
 
     //  index and intake
@@ -192,7 +222,37 @@ public class RobotContainer {
     //          elevatorsub)
     //  );
 
-    con2.l1.whileTrue(
+    // R1 changes speed to triple
+    // RS changes speed to normal
+    // LS changes speed to half
+
+    con1.r1.onTrue(
+        new InstantCommand(
+            () -> {
+                swerve.changeSpeed(3);
+            },
+            swerve
+        )
+    );
+    con1.rs.onTrue(
+        new InstantCommand(
+            () -> {
+                swerve.changeSpeed(1);
+            },
+            swerve
+        )
+    );
+    con1.ls.onTrue(
+        new InstantCommand(
+            () -> {
+                swerve.changeSpeed(0.5);
+            },
+            swerve
+        )
+    );
+
+
+    con2.l1.onTrue(
             new InstantCommand(
             intake::push,
             intakesub)
@@ -235,14 +295,16 @@ public class RobotContainer {
     return new SequentialCommandGroup(
         new ParallelRaceGroup(
             new RunCommand(
-            () -> swerve.drive(
-                new ChassisSpeeds(
-                    -2,
-                    0,
-                    0)),
+                () -> swerve.drive(
+                    new ChassisSpeeds(
+                        -2,
+                        0,
+                        0
+                    )
+                ),
             swerve
             ),
-        new WaitCommand(0.35)
+            new WaitCommand(0.35)
         ),
         new ParallelRaceGroup(
             new RunCommand(
@@ -250,7 +312,9 @@ public class RobotContainer {
                     new ChassisSpeeds(
                         1,
                         0,
-                        0)),
+                        0
+                    )
+                ),
             swerve
             ),
             new WaitCommand(4)
