@@ -52,6 +52,35 @@ public class Auto extends SequentialCommandGroup {
     //   drivetrain
     // );
 
+     // eventMap.put("Score Cube", new ParallelRaceGroup(
+    //   new ParallelCommandGroup(
+    //     new RunCommand(
+    //       RobotContainer.intake::rev,
+    //       RobotContainer.intakesub
+    //     ),
+    //     new RunCommand(
+    //       RobotContainer.indexer::rev,
+    //       RobotContainer.indexersub
+    //     )
+    //   ),
+    //   new WaitCommand(2)
+    // ));
+      
+
+    // eventMap.put("Pick Cube", new ParallelRaceGroup(
+    //   new ParallelCommandGroup(
+    //     new RunCommand(
+    //       RobotContainer.intake::startIntake,
+    //       RobotContainer.intakesub
+    //     ),
+    //     new RunCommand(
+    //       RobotContainer.indexer::start,
+    //       RobotContainer.indexersub
+    //     )
+    //   ),
+    //   new WaitCommand(2)
+    // ));
+
     //new SwerveAutoBuilder(null, null, null, null, null, eventMap, null)
 
     // Add your commands in the addCommands() call, e.g.
