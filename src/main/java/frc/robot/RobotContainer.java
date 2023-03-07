@@ -83,7 +83,6 @@ public class RobotContainer {
 
         phCompressor.enableDigital();
 
-<<<<<<< Updated upstream
     // Configure the button bindings
     configureButtonBindings();
 
@@ -106,10 +105,9 @@ public class RobotContainer {
             clawsub
         )
     );
-=======
+    
         // Configure the button bindings
         configureButtonBindings();
->>>>>>> Stashed changes
 
         indexersub.setDefaultCommand(
             new RunCommand(
