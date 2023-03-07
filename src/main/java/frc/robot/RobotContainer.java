@@ -174,12 +174,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    con2.circle.whileTrue(
-        new InstantCommand(
-            swerve::zerogyro,
-            swerve
-        )
-    );
 
     //  index and intake
     con2.circle.whileTrue(
@@ -257,6 +251,13 @@ public class RobotContainer {
             intake::push,
             intakesub)
         
+    );
+
+    con2.square.whileTrue(
+        new RunCommand(
+            claw::closeClaw,
+            clawsub
+        )
     );
 
     //FOR CLAW IMPLEMENT A STOP-POINT
