@@ -93,29 +93,10 @@ public class RobotContainer {
                 clawsub
             )
         );
+  
         
-        // Configure the button bindings
-        configureButtonBindings();
-
-        indexersub.setDefaultCommand(
-            new RunCommand(
-                indexer::stop,
-                indexersub
-            ));
-        intakesub.setDefaultCommand(
-            new RunCommand(
-                intake::startIntake,
-                intakesub
-            )
-        );
             
-        /*
-        clawsub.setDefaultCommand(
-            new RunCommand(
-                claw::stopClaw,
-                clawsub
-            )
-        );*/
+        
 
         /*
         elevatorsub.setDefaultCommand(
@@ -126,12 +107,7 @@ public class RobotContainer {
         );
         */
 
-        intakesub.setDefaultCommand(
-            new RunCommand(
-                intake::stopIntake,
-                intakesub
-            )
-        );
+    
 
         swerve.setDefaultCommand(
             // The left stick controls translation of the robot.
