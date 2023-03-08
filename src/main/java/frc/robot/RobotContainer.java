@@ -50,8 +50,6 @@ public class RobotContainer {
     public static IndexerSubTalon indexersub = new IndexerSubTalon(26);
     public static IndexerComTalon indexer = new IndexerComTalon(indexersub);
     
-    // public static ClawSub clawsub = new ClawSub(4);
-    // public static ClawCom claw = new ClawCom(clawsub);
 
     public static ClawSubTalon clawsub = new ClawSubTalon(13);
     public static ClawComTalon claw = new ClawComTalon(clawsub);
@@ -61,51 +59,18 @@ public class RobotContainer {
 
     public static PhotonSub limelight = new PhotonSub("ur mother");
     public static Gyro gyro = new Gyro();
-    public static Compressor phCompressor = new Compressor(12, PneumaticsModuleType.REVPH);
-    // public static DriveSubsystem swerve = new DriveSubsystem();
+    public static Compressor phCompressor = new Compressor(11, PneumaticsModuleType.CTREPCM);
 
     // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
 
     
     public static DriveSubsystem swerve = new DriveSubsystem();
 
-    //intake = 2 motors
-    //indexer = 0 motors (same motor as intake)
-    //claw = 1 motors
-    //elevator = 2 motors
-    //ramp = 2 motors
-    //swerve = 8 motors
-    //add 1-2 maybe
-    //current total = 15 motors
-
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
         phCompressor.enableDigital();
 
-    // Configure the button bindings
-    configureButtonBindings();
-
-    indexersub.setDefaultCommand(
-        new RunCommand(
-            indexer::stop,
-            indexersub
-        ));
-    intakesub.setDefaultCommand(
-        new RunCommand(
-            intake::startIntake,
-            intakesub
-        )
-    );
-    
-
-    clawsub.setDefaultCommand(
-        new RunCommand(
-            claw::stopClaw,
-            clawsub
-        )
-    );
-    
         // Configure the button bindings
         configureButtonBindings();
 
@@ -121,7 +86,30 @@ public class RobotContainer {
             )
         );
         
-    /*
+
+        clawsub.setDefaultCommand(
+            new RunCommand(
+                claw::stopClaw,
+                clawsub
+            )
+        );
+        
+        // Configure the button bindings
+        configureButtonBindings();
+
+        indexersub.setDefaultCommand(
+            new RunCommand(
+                indexer::stop,
+                indexersub
+            ));
+        intakesub.setDefaultCommand(
+            new RunCommand(
+                intake::startIntake,
+                intakesub
+            )
+        );
+            
+        /*
         clawsub.setDefaultCommand(
             new RunCommand(
                 claw::stopClaw,
@@ -161,163 +149,156 @@ public class RobotContainer {
             )
         );
 
+    }
 
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
 
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    con2.circle.whileTrue(
-        new InstantCommand(
-            swerve::zerogyro,
-            swerve
-        )
-    );
-
-    //  index and intake
-    con2.circle.whileTrue(
-        new ParallelCommandGroup(
-            new RunCommand(
-                indexer::start,
-                indexersub
-            ),
-            new RunCommand(
-                intake::startIntake,
-                intakesub
+        //  index and intake
+        con2.circle.whileTrue(
+            new ParallelCommandGroup(
+                new RunCommand(
+                    indexer::start,
+                    indexersub
+                ),
+                new RunCommand(
+                    intake::startIntake,
+                    intakesub
+                )
             )
-        )
-    );
+        );
 
-    // outtake
-    con2.cross.whileTrue(
-        new ParallelCommandGroup(
-            new RunCommand(
-                indexer::rev,
-                indexersub
-            ),
-            new RunCommand(
-                intake::rev,
-                intakesub
+        // outtake
+        con2.cross.whileTrue(
+            new ParallelCommandGroup(
+                new RunCommand(
+                    indexer::rev,
+                    indexersub
+                ),
+                new RunCommand(
+                    intake::rev,
+                    intakesub
+                )
             )
-        )
-    );
+        );
 
-    // con1.triangle.whileTrue(
-    //     new RunCommand(
-    //         elevator::startMotor,
-    //         elevatorsub
-    //     )
-    // );
+        // con1.triangle.whileTrue(
+        //     new RunCommand(
+        //         elevator::startMotor,
+        //         elevatorsub
+        //     )
+        // );
 
-    //  con1.square.whileTrue( 
-    //      new RunCommand(
-    //          elevator::reverseMotor,
-    //          elevatorsub)
-    //  );
+        //  con1.square.whileTrue( 
+        //      new RunCommand(
+        //          elevator::reverseMotor,
+        //          elevatorsub)
+        //  );
 
-    // R1 changes speed to triple
-    // RS changes speed to normal
-    // LS changes speed to half
-
-    con1.r1.onTrue(
-        new InstantCommand(
-            () -> {
-                swerve.changeSpeed(3);
-            },
-            swerve
-        )
-    );
-    con1.rs.onTrue(
-        new InstantCommand(
-            () -> {
-                swerve.changeSpeed(1);
-            },
-            swerve
-        )
-    );
-    con1.ls.onTrue(
-        new InstantCommand(
-            () -> {
-                swerve.changeSpeed(0.5);
-            },
-            swerve
-        )
-    );
-
-
-    con2.l1.onTrue(
+        // R1 changes speed to triple
+        // RS changes speed to normal
+        // LS changes speed to half
+        con1.r1.onTrue(
             new InstantCommand(
-            intake::push,
-            intakesub)
-        
-    );
-
-    //FOR CLAW IMPLEMENT A STOP-POINT
-    con2.triangle.whileTrue(
-        new SequentialCommandGroup(
-            new ParallelRaceGroup (
-                new RunCommand   (
-                claw::openClaw,
-                clawsub),
-                new WaitCommand(0.5)
-            ),
-            new RunCommand(
-                claw::stopClaw, clawsub
+                () -> {
+                    swerve.changeSpeed(3);
+                },
+                swerve
             )
-        )
-    );
+        );
+        con1.rs.onTrue(
+            new InstantCommand(
+                () -> {
+                    swerve.changeSpeed(1);
+                },
+                swerve
+            )
+        );
+        con1.ls.onTrue(
+            new InstantCommand(
+                () -> {
+                    swerve.changeSpeed(0.5);
+                },
+                swerve
+            )
+        );
 
-   
 
-    
-  }
+        con2.l1.onTrue(
+                new InstantCommand(
+                intake::push,
+                intakesub)
+            
+        );
 
-  // command group
-  //  c1
-  //  c2
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-
-    //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
-    return new SequentialCommandGroup(
-        new ParallelRaceGroup(
-            new RunCommand(
-                () -> swerve.drive(
-                    new ChassisSpeeds(
-                        -2,
-                        0,
-                        0
-                    )
+        //FOR CLAW IMPLEMENT A STOP-POINT
+        con2.triangle.whileTrue(
+            new SequentialCommandGroup(
+                new ParallelRaceGroup (
+                    new RunCommand   (
+                    claw::openClaw,
+                    clawsub),
+                    new WaitCommand(0.5)
                 ),
-            swerve
-            ),
-            new WaitCommand(0.35)
-        ),
-        new ParallelRaceGroup(
-            new RunCommand(
-                () -> swerve.drive(
-                    new ChassisSpeeds(
-                        1,
-                        0,
-                        0
-                    )
-                ),
-            swerve
-            ),
-            new WaitCommand(4)
-        )
+                new RunCommand(
+                    claw::stopClaw, clawsub
+                )
+            )
+        );
 
-    );
-  }
+        con2.square.whileTrue(
+            new RunCommand(
+                claw::closeClaw,
+                clawsub)
+        );
+
+    }
+
+    // command group
+    //  c1
+    //  c2
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+
+        //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
+        return new SequentialCommandGroup(
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> swerve.drive(
+                        new ChassisSpeeds(
+                            -2,
+                            0,
+                            0
+                        )
+                    ),
+                swerve
+                ),
+                new WaitCommand(0.35)
+            ),
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> swerve.drive(
+                        new ChassisSpeeds(
+                            1,
+                            0,
+                            0
+                        )
+                    ),
+                swerve
+                ),
+                new WaitCommand(4)
+            )
+        );
+    }
 }
