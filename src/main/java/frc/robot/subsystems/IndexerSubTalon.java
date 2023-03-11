@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IndexerSubTalon extends SubsystemBase {
   TalonSRX indexTalon;
   /** Creates a new ExampleSubsystem. */
-  public IndexerSubTalon(int ID1) {
-    indexTalon = new TalonSRX(ID1);
+  public IndexerSubTalon(int ID) {
+    indexTalon = new TalonSRX(ID);
   }
 
   public void move(double percentSpeed){

@@ -12,17 +12,17 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubTalon extends SubsystemBase {
-  TalonSRX IntakeTalon1;
+  TalonSRX IntakeTalon;
   DoubleSolenoid phDoubleSolenoid;
   /** Creates a new ExampleSubsystem. */
-  public IntakeSubTalon(int ID1) {
-    IntakeTalon1 = new TalonSRX(ID1);
+  public IntakeSubTalon(int ID) {
+    IntakeTalon = new TalonSRX(ID);
     phDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.CTREPCM, 0, 1);
     phDoubleSolenoid.set(kReverse);
   }
 
   public void move(double percentSpeed){
-    IntakeTalon1.set(TalonSRXControlMode.PercentOutput, percentSpeed);
+    IntakeTalon.set(TalonSRXControlMode.PercentOutput, percentSpeed);
   }
 
   public void toggleIntake(){

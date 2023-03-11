@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-
-
-
 import com.kauailabs.navx.frc.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
