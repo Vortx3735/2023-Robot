@@ -51,7 +51,7 @@ public class RobotContainer {
     public static IndexerComTalon indexer = new IndexerComTalon(indexersub);
     
 
-    public static ClawSubTalon clawsub = new ClawSubTalon(13);
+    public static ClawSubTalon clawsub = new ClawSubTalon();
     public static ClawComTalon claw = new ClawComTalon(clawsub);
 
     //public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
@@ -86,18 +86,6 @@ public class RobotContainer {
             )
         );
         
-
-        clawsub.setDefaultCommand(
-            new RunCommand(
-                claw::stopClaw,
-                clawsub
-            )
-        );
-  
-        
-            
-        
-
         /*
         elevatorsub.setDefaultCommand(
             new RunCommand(
@@ -212,25 +200,11 @@ public class RobotContainer {
             
         );
 
-        //FOR CLAW IMPLEMENT A STOP-POINT
-        con2.triangle.whileTrue(
-            new SequentialCommandGroup(
-                new ParallelRaceGroup (
-                    new RunCommand   (
-                    claw::openClaw,
-                    clawsub),
-                    new WaitCommand(0.5)
-                ),
-                new RunCommand(
-                    claw::stopClaw, clawsub
-                )
+        con2.r1.onTrue(
+            new InstantCommand(
+                claw::grab,
+                clawsub
             )
-        );
-
-        con2.square.whileTrue(
-            new RunCommand(
-                claw::closeClaw,
-                clawsub)
         );
 
     }

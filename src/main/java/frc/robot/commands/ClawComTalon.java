@@ -27,18 +27,9 @@ public class ClawComTalon extends CommandBase {
     addRequirements(claw);
   }
 
-  public void stopClaw() {
-    claw.move(0);
+  public void grab() {
+    claw.toggleClaw();
   }
-
-  public void openClaw() {
-    claw.move(-0.6);
-  }
-
-  public void closeClaw() {
-    claw.move(0.6);
-  }
-  
   
 
   // Called when the command is initially scheduled.

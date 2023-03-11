@@ -4,36 +4,22 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClawSubTalon extends SubsystemBase {
-  private WPI_TalonSRX ClawTalon;
-  private PIDController hold;
-  private int setpoint;
+  DoubleSolenoid phDoubleSolenoid;
   /** Creates a new ExampleSubsystem. */
-  public ClawSubTalon(int ID) {
-    ClawTalon = new WPI_TalonSRX(ID);
-    ClawTalon.setNeutralMode(NeutralMode.Brake);
-    hold = new PIDController(0.01, 0, 0);
-    setpoint = 0;
+  public ClawSubTalon() {
+    phDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.CTREPCM, 2, 3);
+    phDoubleSolenoid.set(kForward);
   }
 
-  public void hold() {
-    double pos = ClawTalon.getSelectedSensorPosition();
-    ClawTalon.set(hold.calculate(pos, setpoint));
-
-    setpoint = (int)(pos);
+  public void toggleClaw(){
+    phDoubleSolenoid.toggle();
   }
-
-  public void move(double percentSpeed){
-    ClawTalon.set(TalonSRXControlMode.PercentOutput, percentSpeed);
-  }
-
 
   @Override
   public void periodic() {
