@@ -10,15 +10,29 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClawSubTalon extends SubsystemBase {
-  DoubleSolenoid phDoubleSolenoid;
+  DoubleSolenoid phClawDoubleSolenoid;
+  boolean isToggled;
   /** Creates a new ExampleSubsystem. */
   public ClawSubTalon() {
-    phDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.CTREPCM, 2, 3);
-    phDoubleSolenoid.set(kForward);
+    phClawDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.CTREPCM, 2, 3);
+    phClawDoubleSolenoid.set(kForward);
+    isToggled = false;
   }
 
   public void toggleClaw(){
-    phDoubleSolenoid.toggle();
+    phClawDoubleSolenoid.toggle();
+  }
+
+  public void changeToggle(){
+    if (isToggled) {
+      isToggled = false;
+    } else {
+      isToggled = true;
+    }
+  }
+
+  public boolean getToggled() {
+    return isToggled;
   }
 
   @Override

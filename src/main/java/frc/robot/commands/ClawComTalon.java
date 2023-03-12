@@ -29,6 +29,7 @@ public class ClawComTalon extends CommandBase {
 
   public void grab() {
     claw.toggleClaw();
+    claw.changeToggle();
   }
   
 

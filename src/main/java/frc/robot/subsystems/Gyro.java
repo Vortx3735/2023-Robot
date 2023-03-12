@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.*;
+
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Gyro extends SubsystemBase {
@@ -17,12 +20,16 @@ public class Gyro extends SubsystemBase {
     gyro.calibrate();
   } 
 
+  
+
+  public double grabYaw(){
+    return gyro.getYaw();
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //System.out.println(gyro.getYaw());
-    
   }
 
   @Override

@@ -68,7 +68,6 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-
         phCompressor.enableDigital();
 
         // Configure the button bindings
@@ -194,10 +193,10 @@ public class RobotContainer {
 
 
         con2.l1.onTrue(
-                new InstantCommand(
+            new InstantCommand(
                 intake::push,
-                intakesub)
-            
+                intakesub
+            )
         );
 
         con2.r1.onTrue(

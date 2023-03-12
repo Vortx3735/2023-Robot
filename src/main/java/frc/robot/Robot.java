@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,6 +25,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private Gyro m_gyro;
+  private IntakeSubTalon m_intake;
+  private ClawSubTalon m_claw;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,11 +38,16 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_gyro = new Gyro();
+    m_intake = RobotContainer.intakesub;
+    m_claw = RobotContainer.clawsub;
     UsbCamera cam = CameraServer.startAutomaticCapture();
     cam.setResolution(320, 240);
     cam.setFPS(30);
     cam.setExposureManual(40);
-
+    SmartDashboard.putNumber("Yaw", m_gyro.grabYaw());
+    SmartDashboard.putBoolean("Intake Pneumatic", m_intake.getToggled());
+    SmartDashboard.putBoolean("Claw Pneumatic", m_claw.getToggled());
   }
 
   /**

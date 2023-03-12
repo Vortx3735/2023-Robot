@@ -40,6 +40,7 @@ public class IntakeComTalon extends CommandBase {
 
   public void push() {
     intake.toggleIntake();
+    intake.changeToggle();
   }
 
   // Called when the command is initially scheduled.

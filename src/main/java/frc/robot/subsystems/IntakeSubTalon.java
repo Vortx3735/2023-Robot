@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubTalon extends SubsystemBase {
   TalonSRX IntakeTalon;
-  DoubleSolenoid phDoubleSolenoid;
+  DoubleSolenoid phIntakeDoubleSolenoid;
+  boolean isToggled;
   /** Creates a new ExampleSubsystem. */
   public IntakeSubTalon(int ID) {
     IntakeTalon = new TalonSRX(ID);
-    phDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.CTREPCM, 0, 1);
-    phDoubleSolenoid.set(kReverse);
+    phIntakeDoubleSolenoid = new DoubleSolenoid(11, PneumaticsModuleType.CTREPCM, 0, 1);
+    phIntakeDoubleSolenoid.set(kReverse);
+    isToggled = false;
   }
 
   public void move(double percentSpeed){
@@ -26,7 +28,19 @@ public class IntakeSubTalon extends SubsystemBase {
   }
 
   public void toggleIntake(){
-      phDoubleSolenoid.toggle();
+    phIntakeDoubleSolenoid.toggle();
+  }
+
+  public void changeToggle(){
+    if (isToggled) {
+      isToggled = false;
+    } else {
+      isToggled = true;
+    }
+  }
+
+  public boolean getToggled() {
+    return isToggled;
   }
 
 
