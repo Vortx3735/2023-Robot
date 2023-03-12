@@ -8,10 +8,11 @@ package frc.robot;
 
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 
@@ -41,13 +42,15 @@ public class Robot extends TimedRobot {
     m_gyro = new Gyro();
     m_intake = RobotContainer.intakesub;
     m_claw = RobotContainer.clawsub;
-    UsbCamera cam = CameraServer.startAutomaticCapture();
-    cam.setResolution(320, 240);
-    cam.setFPS(30);
-    cam.setExposureManual(40);
+    
+    CameraServer.startAutomaticCapture();
+    CvSource outputStream = CameraServer.putVideo("Camera", 320, 240);
+    outputStream.setFPS(30);
+
     SmartDashboard.putNumber("Yaw", m_gyro.grabYaw());
     SmartDashboard.putBoolean("Intake Pneumatic", m_intake.getToggled());
     SmartDashboard.putBoolean("Claw Pneumatic", m_claw.getToggled());
+    SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
   }
 
   /**

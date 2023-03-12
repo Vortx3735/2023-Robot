@@ -160,3 +160,11 @@ bin/
 
 # Simulation GUI and other tools window save file
 *-window.json
+
+networktables.json
+
+networktables.json.bck
+
+simgui-ds.json
+
+simgui.json
