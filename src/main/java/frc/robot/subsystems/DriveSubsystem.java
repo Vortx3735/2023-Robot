@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -104,6 +105,9 @@ public class DriveSubsystem extends SubsystemBase {
         // Similar helpers also exist for Mk4 modules using the Mk4SwerveModuleHelper
         // class.
 
+
+        Mk4ModuleConfiguration mk4Configuration = new Mk4ModuleConfiguration();
+        
         // By default we will use Falcon 500s in standard configuration. But if you use
         // a different configuration or motors
         // you MUST change it. If you do not, your code will crash on startup.
@@ -125,6 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
                 // This is how much the steer encoder is offset from true zero (In our case,
                 // zero is facing straight forward)
                 FRONT_LEFT_MODULE_STEER_OFFSET);
+
 
         // We will do the same for the other modules
         m_frontRightModule = Mk4iSwerveModuleHelper.createNeo(
@@ -156,7 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
                 BACK_RIGHT_MODULE_STEER_MOTOR,
                 BACK_RIGHT_MODULE_STEER_ENCODER,
                 BACK_RIGHT_MODULE_STEER_OFFSET);
-        speedScale = 3;
+        speedScale = 4;
     }
 
     /**

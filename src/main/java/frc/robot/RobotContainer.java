@@ -107,7 +107,7 @@ public class RobotContainer {
                     new ChassisSpeeds(
                         -con1.getLeftY(),
                         -con1.getLeftX(),
-                        -con1.getRightX())),
+                        -con1.getRightX()*3)),
             swerve
             )
         );
@@ -163,13 +163,13 @@ public class RobotContainer {
         //          elevatorsub)
         //  );
 
-        // R1 changes speed to triple
+        // R1 changes speed to quad
         // RS changes speed to normal
         // LS changes speed to half
         con1.r1.onTrue(
             new InstantCommand(
                 () -> {
-                    swerve.changeSpeed(3);
+                    swerve.changeSpeed(4);
                 },
                 swerve
             )

@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
     CvSource outputStream = CameraServer.putVideo("Camera", 320, 240);
     outputStream.setFPS(30);
 
+    //add how far the elevator is extended (percentage)    
     SmartDashboard.putNumber("Yaw", m_gyro.grabYaw());
     SmartDashboard.putBoolean("Intake Pneumatic", m_intake.getToggled());
     SmartDashboard.putBoolean("Claw Pneumatic", m_claw.getToggled());
