@@ -64,8 +64,8 @@ public final class Constants {
   public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 6;
   public static final int BACK_LEFT_MODULE_STEER_MOTOR = 5;
 
-  public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
-  public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 7;
+  public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7;
+  public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8;
 
   // public static SwerveModule frontLeft = new SwerveModule(3, 4, 14, false, false, Constants.ModuleConstants.frontLeftOffset);
   // public static SwerveModule frontRight = new SwerveModule(10, 9, 17, false, false, Constants.ModuleConstants.frontRightOffset);
