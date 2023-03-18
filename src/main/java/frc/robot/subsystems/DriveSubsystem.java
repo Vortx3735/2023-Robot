@@ -20,8 +20,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import static frc.robot.Constants.*;
+
+import org.texastorque.torquelib.swerve.TorqueSwerveModule2022;
+import org.texastorque.torquelib.swerve.TorqueSwerveModule2022.SwerveConfig;
+import org.texastorque.torquelib.swerve.TorqueSwerveModule2022.SwervePorts;
 
 public class DriveSubsystem extends SubsystemBase {
     /**
@@ -70,15 +75,15 @@ public class DriveSubsystem extends SubsystemBase {
             // Back left
             new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
             // Back right
-            new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
+            new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
 
     // These are our modules. We initialize them in the constructor.
-    private final SwerveModule m_frontLeftModule;
-    private final SwerveModule m_frontRightModule;
-    private final SwerveModule m_backLeftModule;
-    private final SwerveModule m_backRightModule;
+    private final TorqueSwerveModule2022 m_frontLeftModule;
+    private final TorqueSwerveModule2022 m_frontRightModule;
+    private final TorqueSwerveModule2022 m_backLeftModule;
+    private final TorqueSwerveModule2022 m_backRightModule;
 
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -106,62 +111,36 @@ public class DriveSubsystem extends SubsystemBase {
         // Similar helpers also exist for Mk4 modules using the Mk4SwerveModuleHelper
         // class.
 
-
-       Mk4ModuleConfiguration mk4Configuration = new Mk4ModuleConfiguration();
         
         // By default we will use Falcon 500s in standard configuration. But if you use
         // a different configuration or motors
         // you MUST change it. If you do not, your code will crash on startup.
         // FIXME Setup motor configuration
-        m_frontLeftModule = Mk4iSwerveModuleHelper.createNeo(
-                // This parameter is optional, but will allow you to see the current state of
-                // the module on the dashboard.
-                tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(0, 0),
-                // This can either be STANDARD or FAST depending on your gear configuration
-                Mk4iSwerveModuleHelper.GearRatio.L2,
-                // This is the ID of the drive motor
-                FRONT_LEFT_MODULE_DRIVE_MOTOR,
-                // This is the ID of the steer motor
-                FRONT_LEFT_MODULE_STEER_MOTOR,
-                // This is the ID of the steer encoder
-                FRONT_LEFT_MODULE_STEER_ENCODER,
-                // This is how much the steer encoder is offset from true zero (In our case,
-                // zero is facing straight forward)
-                FRONT_LEFT_MODULE_STEER_OFFSET);
+
+
+        SwervePorts FL_MOD = new SwervePorts(10, 9, 14);
+        SwervePorts FR_MOD = new SwervePorts(4, 3, 17);
+        SwervePorts BL_MOD = new SwervePorts(6, 5, 16);
+        SwervePorts BR_MOD = new SwervePorts(8, 7, 15);
+
+
+       final SwerveConfig config = SwerveConfig.defaultConfig;
+
+       config.maxVelocity = 5;
+       config.maxAcceleration = 9;
+       config.maxAngularVelocity = 5;
+       config.maxAngularAcceleration = 5;
+
+        m_frontLeftModule = new TorqueSwerveModule2022("frontLeft", FL_MOD, Constants.FRONT_LEFT_MODULE_STEER_OFFSET -1.174990368758747, config);
 
 
         // We will do the same for the other modules
-        m_frontRightModule = Mk4iSwerveModuleHelper.createNeo(
-                tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(2, 0),
-                        Mk4iSwerveModuleHelper.GearRatio.L2,
-                FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-                FRONT_RIGHT_MODULE_STEER_MOTOR,
-                FRONT_RIGHT_MODULE_STEER_ENCODER,
-                FRONT_RIGHT_MODULE_STEER_OFFSET);
+        m_frontRightModule = new TorqueSwerveModule2022("frontRight", FR_MOD, Constants.FRONT_RIGHT_MODULE_STEER_OFFSET -2.647602763765622, config);
 
-        m_backLeftModule = Mk4iSwerveModuleHelper.createNeo(
-                tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(4, 0),
-                Mk4iSwerveModuleHelper.GearRatio.L2,
-                BACK_LEFT_MODULE_DRIVE_MOTOR,
-                BACK_LEFT_MODULE_STEER_MOTOR,
-                BACK_LEFT_MODULE_STEER_ENCODER,
-                BACK_LEFT_MODULE_STEER_OFFSET);
 
-        m_backRightModule = Mk4iSwerveModuleHelper.createNeo(
-                tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(6, 0),
-                Mk4iSwerveModuleHelper.GearRatio.L2,
-                BACK_RIGHT_MODULE_DRIVE_MOTOR,
-                BACK_RIGHT_MODULE_STEER_MOTOR,
-                BACK_RIGHT_MODULE_STEER_ENCODER,
-                BACK_RIGHT_MODULE_STEER_OFFSET);
+        m_backLeftModule = new TorqueSwerveModule2022("backLeft", BL_MOD, Constants.BACK_LEFT_MODULE_STEER_OFFSET + 1.029346505702506, config);
+
+        m_backRightModule = new TorqueSwerveModule2022("backRight", BR_MOD, Constants.BACK_RIGHT_MODULE_STEER_OFFSET -2.391440058458112, config);
         speedScale = 4;
     }
 
@@ -183,6 +162,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getGyroscopeRotation() {
+
+
         if (m_navx.isMagnetometerCalibrated()) {
             // We will only get valid fused headings if the magnetometer is calibrated
             return Rotation2d.fromDegrees(m_navx.getFusedHeading());
@@ -207,13 +188,9 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
-        m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE * speedScale,
-                states[0].angle.getRadians());
-        m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE * speedScale,
-                states[1].angle.getRadians());
-        m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE * speedScale,
-                states[2].angle.getRadians());
-        m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE * speedScale,
-                states[3].angle.getRadians());
+        m_frontLeftModule.setDesiredState(states[0]);
+        m_frontRightModule.setDesiredState(states[1]);
+        m_backLeftModule.setDesiredState(states[2]);
+        m_backRightModule.setDesiredState(states[3]);
     }
 }

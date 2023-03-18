@@ -28,7 +28,7 @@ public class IndexerComTalon extends CommandBase {
 
   public void start() {
     
-    indexer.move(-1);
+    indexer.move(-0.65);
   }
 
   public void stop() {
@@ -36,7 +36,7 @@ public class IndexerComTalon extends CommandBase {
   }
 
   public void rev() {
-    indexer.move(1);
+    indexer.move(0.65);
   }
 
   // Called when the command is initially scheduled.

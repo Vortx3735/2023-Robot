@@ -102,9 +102,9 @@ public class RobotContainer {
             new RunCommand(
                 () -> swerve.drive(
                     new ChassisSpeeds(
-                        -con1.getLeftY(),
-                        -con1.getLeftX(),
-                        -con1.getRightX()*3)),
+                        con1.getLeftY()*3,
+                        con1.getLeftX()*3,
+                        con1.getRightX()*6)),
             swerve
             )
         );
