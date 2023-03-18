@@ -25,7 +25,11 @@ public class ClawSubTalon extends SubsystemBase {
   }
 
   public String getState(){
-    state = phClawDoubleSolenoid.get().toString();
+    if (phClawDoubleSolenoid.get() == kForward){
+      state = "Closed";
+    } else {
+      state = "Opened";
+    }
     return state;
   }
 
@@ -40,6 +44,6 @@ public class ClawSubTalon extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
     SmartDashboard.putString("Claw Pneumatic", getState());
-
+    System.out.println(getState());
   }
 }

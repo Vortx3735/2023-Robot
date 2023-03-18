@@ -32,7 +32,11 @@ public class IntakeSubTalon extends SubsystemBase {
   }
 
   public String getState(){
-    state = phIntakeDoubleSolenoid.get().toString();
+    if (phIntakeDoubleSolenoid.get() == kReverse) {
+      state = "In";
+    } else {
+      state = "Out";
+    }
     return state;
   }
 

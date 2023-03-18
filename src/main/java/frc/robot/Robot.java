@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
     CvSource outputStream = CameraServer.putVideo("Camera", 320, 240);
     outputStream.setFPS(30);
+  
   }
 
   /**
