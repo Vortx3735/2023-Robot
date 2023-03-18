@@ -17,7 +17,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
-
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -34,11 +34,12 @@ public class Auto extends SequentialCommandGroup {
   List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("Straight", new PathConstraints(1, 2));
 
   private static HashMap<String, Command> eventMap = new HashMap<>();
+  private static AutoBalance balance = new AutoBalance();
   
   /** Creates a new Auto. */
   public Auto(DriveSubsystem drivetrain) {
 
-    
+
 
     // SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
     //   drivetrain::getPosition, 
@@ -65,6 +66,20 @@ public class Auto extends SequentialCommandGroup {
     //   ),
     //   new WaitCommand(2)
     // ));
+
+  //   eventMap.put("Balance", new ParallelRaceGroup(
+  //     new RunCommand(
+  //         () -> drivetrain.drive(
+  //             new ChassisSpeeds(
+  //                 balance.autoBalanceRoutine(),
+  //                 0,
+  //                 0
+  //             )
+  //         ),
+  //     drivetrain
+  //     ),s
+  //     new WaitCommand(4)
+  // ));
       
 
     // eventMap.put("Pick Cube", new ParallelRaceGroup(

@@ -70,7 +70,7 @@ public class DriveSubsystem extends SubsystemBase {
             // Back left
             new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
             // Back right
-            new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
+            new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
     private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
 
@@ -107,7 +107,7 @@ public class DriveSubsystem extends SubsystemBase {
         // class.
 
 
-        Mk4ModuleConfiguration mk4Configuration = new Mk4ModuleConfiguration();
+       Mk4ModuleConfiguration mk4Configuration = new Mk4ModuleConfiguration();
         
         // By default we will use Falcon 500s in standard configuration. But if you use
         // a different configuration or motors

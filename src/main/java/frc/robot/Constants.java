@@ -30,10 +30,10 @@ public final class Constants {
   public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(148.8);
   public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(22.412);*/
 
-  public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(146.250);
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(291.621);
-  public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -Math.toRadians(27.949);
-  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(279.932);
+  public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -Math.toRadians(145.723);
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(291.270);
+  public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -Math.toRadians(29.531);
+  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(282.393);
 
   // public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -Math.toRadians(56.602);
   // public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -Math.toRadians(79.717);
@@ -64,8 +64,8 @@ public final class Constants {
   public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 6;
   public static final int BACK_LEFT_MODULE_STEER_MOTOR = 5;
 
-  public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7;
-  public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 8;
+  public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
+  public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 7;
 
   // public static SwerveModule frontLeft = new SwerveModule(3, 4, 14, false, false, Constants.ModuleConstants.frontLeftOffset);
   // public static SwerveModule frontRight = new SwerveModule(10, 9, 17, false, false, Constants.ModuleConstants.frontRightOffset);

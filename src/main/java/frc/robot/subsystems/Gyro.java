@@ -19,10 +19,6 @@ public class Gyro extends SubsystemBase {
     gyro.calibrate();
   } 
 
-  public double grabYaw(){
-    return gyro.getYaw();
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

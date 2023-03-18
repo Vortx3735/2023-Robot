@@ -27,7 +27,7 @@ public class IntakeComTalon extends CommandBase {
   }
 
   public void startIntake() {
-    intake.move(0.3);
+    intake.move(1);
   }
 
   public void stopIntake() {
@@ -40,7 +40,6 @@ public class IntakeComTalon extends CommandBase {
 
   public void push() {
     intake.toggleIntake();
-    intake.changeToggle();
   }
 
   // Called when the command is initially scheduled.

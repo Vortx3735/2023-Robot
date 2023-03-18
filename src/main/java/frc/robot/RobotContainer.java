@@ -37,18 +37,15 @@ public class RobotContainer {
     
     public static VorTXController con2 = new VorTXController(1);
 
-    // public static IntakeSubTalon intakesub = new IntakeSubTalon(13);
+    public static IntakeSubTalon intakesub = new IntakeSubTalon(13);
+    public static IntakeComTalon intake = new IntakeComTalon(intakesub);
+    
+    
+    // public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
     // public static IntakeComTalon intake = new IntakeComTalon(intakesub);
     
-    
-    //public static IntakeSubTalon intakesub = new IntakeSubTalon(25);
-    //public static IntakeComTalon intake = new IntakeComTalon(intakesub);
-    
-    //indexer uses same motor as intake
-    //will have to remove all of the indexer in code
-    //reorder Spark ids here once removed
-    // public static IndexerSubTalon indexersub = new IndexerSubTalon(26);
-    // public static IndexerComTalon indexer = new IndexerComTalon(indexersub);
+    public static IndexerSubTalon indexersub = new IndexerSubTalon(26);
+    public static IndexerComTalon indexer = new IndexerComTalon(indexersub);
     
 
     public static ClawSubTalon clawsub = new ClawSubTalon();
@@ -73,17 +70,17 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
 
-        // indexersub.setDefaultCommand(
-        //     new RunCommand(
-        //         indexer::stop,
-        //         indexersub
-        //     ));
-        // intakesub.setDefaultCommand(
-        //     new RunCommand(
-        //         intake::startIntake,
-        //         intakesub
-        //     )
-        // );
+        indexersub.setDefaultCommand(
+            new RunCommand(
+                indexer::stop,
+                indexersub
+            ));
+        intakesub.setDefaultCommand(
+            new RunCommand(
+                intake::stopIntake,
+                intakesub
+            )
+        );
         
         /*
         elevatorsub.setDefaultCommand(
@@ -123,32 +120,32 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // //  index and intake
-        // con2.circle.whileTrue(
-        //     new ParallelCommandGroup(
-        //         new RunCommand(
-        //             indexer::start,
-        //             indexersub
-        //         ),
-        //         new RunCommand(
-        //             intake::startIntake,
-        //             intakesub
-        //         )
-        //     )
-        // );
+        con2.circle.whileTrue(
+            new ParallelCommandGroup(
+                new RunCommand(
+                    indexer::start,
+                    indexersub
+                ),
+                new RunCommand(
+                    intake::startIntake,
+                    intakesub
+                )
+            )
+        );
 
         // // outtake
-        // con2.cross.whileTrue(
-        //     new ParallelCommandGroup(
-        //         new RunCommand(
-        //             indexer::rev,
-        //             indexersub
-        //         ),
-        //         new RunCommand(
-        //             intake::rev,
-        //             intakesub
-        //         )
-        //     )
-        // );
+        con2.cross.whileTrue(
+            new ParallelCommandGroup(
+                new RunCommand(
+                    indexer::rev,
+                    indexersub
+                ),
+                new RunCommand(
+                    intake::rev,
+                    intakesub
+                )
+            )
+        );
 
         // con1.triangle.whileTrue(
         //     new RunCommand(
