@@ -5,22 +5,17 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
-import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 import static frc.robot.Constants.*;
 
@@ -62,7 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
     // replace this with a measured amount.
 
 
-    private double speedScale;
+    public static double speedScale;
 
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
             Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
@@ -77,7 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
             // Back right
             new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-    private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+    private final static AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
 
     // These are our modules. We initialize them in the constructor.
     private final TorqueSwerveModule2022 m_frontLeftModule;
@@ -89,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
     public DriveSubsystem() {
-        ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+        //ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
         // There are 4 methods you can call to create your swerve modules.
         // The method you use depends on what motors you are using.
@@ -118,10 +113,10 @@ public class DriveSubsystem extends SubsystemBase {
         // FIXME Setup motor configuration
 
 
-        SwervePorts FL_MOD = new SwervePorts(10, 9, 14);
-        SwervePorts FR_MOD = new SwervePorts(4, 3, 17);
-        SwervePorts BL_MOD = new SwervePorts(6, 5, 16);
-        SwervePorts BR_MOD = new SwervePorts(8, 7, 15);
+        SwervePorts FL_MOD = new SwervePorts(FRONT_LEFT_MODULE_DRIVE_MOTOR, FRONT_LEFT_MODULE_STEER_MOTOR, FRONT_LEFT_MODULE_STEER_ENCODER);
+        SwervePorts FR_MOD = new SwervePorts(FRONT_RIGHT_MODULE_DRIVE_MOTOR, FRONT_RIGHT_MODULE_STEER_MOTOR, FRONT_RIGHT_MODULE_STEER_ENCODER);
+        SwervePorts BL_MOD = new SwervePorts(BACK_LEFT_MODULE_DRIVE_MOTOR, BACK_LEFT_MODULE_STEER_MOTOR, BACK_LEFT_MODULE_STEER_ENCODER);
+        SwervePorts BR_MOD = new SwervePorts(BACK_RIGHT_MODULE_DRIVE_MOTOR, BACK_RIGHT_MODULE_STEER_MOTOR, BACK_RIGHT_MODULE_STEER_ENCODER);
 
 
        final SwerveConfig config = SwerveConfig.defaultConfig;
@@ -131,16 +126,16 @@ public class DriveSubsystem extends SubsystemBase {
        config.maxAngularVelocity = 5;
        config.maxAngularAcceleration = 5;
 
-        m_frontLeftModule = new TorqueSwerveModule2022("frontLeft", FL_MOD, Constants.FRONT_LEFT_MODULE_STEER_OFFSET -1.174990368758747, config);
+        m_frontLeftModule = new TorqueSwerveModule2022("frontLeft", FL_MOD, FRONT_LEFT_MODULE_STEER_OFFSET -1.174990368758747, config);
 
 
         // We will do the same for the other modules
-        m_frontRightModule = new TorqueSwerveModule2022("frontRight", FR_MOD, Constants.FRONT_RIGHT_MODULE_STEER_OFFSET -2.647602763765622, config);
+        m_frontRightModule = new TorqueSwerveModule2022("frontRight", FR_MOD, FRONT_RIGHT_MODULE_STEER_OFFSET -2.647602763765622, config);
 
 
-        m_backLeftModule = new TorqueSwerveModule2022("backLeft", BL_MOD, Constants.BACK_LEFT_MODULE_STEER_OFFSET + 1.029346505702506, config);
+        m_backLeftModule = new TorqueSwerveModule2022("backLeft", BL_MOD, BACK_LEFT_MODULE_STEER_OFFSET + 1.029346505702506, config);
 
-        m_backRightModule = new TorqueSwerveModule2022("backRight", BR_MOD, Constants.BACK_RIGHT_MODULE_STEER_OFFSET -2.391440058458112, config);
+        m_backRightModule = new TorqueSwerveModule2022("backRight", BR_MOD, BACK_RIGHT_MODULE_STEER_OFFSET -2.391440058458112, config);
         speedScale = 4;
     }
 
@@ -150,7 +145,6 @@ public class DriveSubsystem extends SubsystemBase {
      * 'forwards' direction.
      */
     public void zeroGyroscope() {
-
         m_navx.zeroYaw();
     }
 
@@ -161,14 +155,7 @@ public class DriveSubsystem extends SubsystemBase {
         speedScale = speed;
     }
 
-    public Rotation2d getGyroscopeRotation() {
-
-
-        if (m_navx.isMagnetometerCalibrated()) {
-            // We will only get valid fused headings if the magnetometer is calibrated
-            return Rotation2d.fromDegrees(m_navx.getFusedHeading());
-        }
-
+    public static Rotation2d getGyroscopeRotation() {
         // We have to invert the angle of the NavX so that rotating the robot
         // counter-clockwise makes the angle increase.
         return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
@@ -176,10 +163,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void drive(ChassisSpeeds chassisSpeeds) {
         m_chassisSpeeds = chassisSpeeds;
-    }
-
-    public void zerogyro(){
-        m_navx.setAngleAdjustment(0.0);
     }
 
     @Override

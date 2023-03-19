@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import static frc.robot.subsystems.DriveSubsystem.*;
 //import frc.robot.Constants.OIConstants;
 
 /**
@@ -101,11 +102,17 @@ public class RobotContainer {
             // LS changes speed to half
             new RunCommand(
                 () -> swerve.drive(
-                    new ChassisSpeeds(
-                        con1.getLeftY()*3,
-                        con1.getLeftX()*3,
-                        con1.getRightX()*6)),
-            swerve
+                    ChassisSpeeds.fromFieldRelativeSpeeds(
+                        con1.getLeftY()*speedScale,
+                        con1.getLeftX()*speedScale,
+                        con1.getRightX()*3*speedScale, 
+                        DriveSubsystem.getGyroscopeRotation())
+                    // new ChassisSpeeds(
+                    //     con1.getLeftY()*speedScale,
+                    //     con1.getLeftX()*speedScale,
+                    //     con1.getRightX()*3*speedScale)),
+                    ),
+                    swerve
             )
         );
 
@@ -188,6 +195,12 @@ public class RobotContainer {
             )
         );
 
+        con1.l1.onTrue(
+           new InstantCommand(
+                swerve::zeroGyroscope,
+                swerve
+           ) 
+        );
 
         con2.l1.onTrue(
             new InstantCommand(

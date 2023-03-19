@@ -27,7 +27,6 @@ public class IndexerComTalon extends CommandBase {
   }
 
   public void start() {
-    
     indexer.move(-0.65);
   }
 
