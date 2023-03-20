@@ -105,7 +105,7 @@ public class RobotContainer {
                     ChassisSpeeds.fromFieldRelativeSpeeds(
                         con1.getLeftY()*speedScale,
                         con1.getLeftX()*speedScale,
-                        con1.getRightX()*3*speedScale, 
+                        con1.getRightX()*1.5*speedScale, 
                         DriveSubsystem.getGyroscopeRotation())
                     // new ChassisSpeeds(
                     //     con1.getLeftY()*speedScale,
@@ -170,6 +170,7 @@ public class RobotContainer {
         // R1 changes speed to quad
         // RS changes speed to normal
         // LS changes speed to half
+        // if speed is set to anything > 4, 
         con1.r1.onTrue(
             new InstantCommand(
                 () -> {
@@ -181,7 +182,7 @@ public class RobotContainer {
         con1.rs.onTrue(
             new InstantCommand(
                 () -> {
-                    swerve.changeSpeed(1);
+                    swerve.changeSpeed(10);
                 },
                 swerve
             )

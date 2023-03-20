@@ -56,11 +56,11 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
 
         public double magic = 6.57 / (8.0 + 1.0 / 3.0);
 
-        public int driveMaxCurrent = 35,          // amps
+        public int driveMaxCurrent = 40,          // amps
                 turnMaxCurrent = 25;              // amps
         public double voltageCompensation = 12.6, // volts
-                maxVelocity = 3.25,               // m/s
-                maxAcceleration = 3.0,            // m/s^2
+                maxVelocity = 4.5,               // m/s
+                maxAcceleration = 3,            // m/s^2
                 maxAngularVelocity = Math.PI,     // radians/s
                 maxAngularAcceleration = Math.PI, // radians/s
 
@@ -146,7 +146,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
         drive = new TorqueNEO(driveID);
         drive.setCurrentLimit(config.driveMaxCurrent);
         drive.setVoltageCompensation(config.voltageCompensation);
-        drive.setBreakMode(true);
+        drive.setBreakMode(false);
         drive.invertMotor(false);
         drive.setConversionFactors(config.drivePoseFactor, config.driveVelocityFactor);
         drive.burnFlash();
@@ -156,7 +156,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
         turn.setConversionFactors(config.turnGearRatio * 2 * Math.PI, 1);
         turn.setCurrentLimit(config.turnMaxCurrent);
         turn.setVoltageCompensation(config.voltageCompensation);
-        turn.setBreakMode(true);
+        turn.setBreakMode(false);
         turn.burnFlash();
 
         cancoder = new CANCoder(encoderID);
@@ -211,6 +211,10 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
     public void stop() {
         drive.setPercent(0.0);
         turn.setPercent(0.0);
+    }
+
+    public void setIsBrake(boolean isBrake) {
+        drive.setBreakMode(isBrake);
     }
 
     public void zero() { turn.setPercent(log("zero pid", turnPID.calculate(getTurnEncoder(), 0))); }

@@ -79,6 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final TorqueSwerveModule2022 m_frontRightModule;
     private final TorqueSwerveModule2022 m_backLeftModule;
     private final TorqueSwerveModule2022 m_backRightModule;
+    private final TorqueSwerveModule2022[] modules;
 
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -124,7 +125,7 @@ public class DriveSubsystem extends SubsystemBase {
        config.maxVelocity = 5;
        config.maxAcceleration = 9;
        config.maxAngularVelocity = 5;
-       config.maxAngularAcceleration = 5;
+       config.maxAngularAcceleration = 5 ;
 
         m_frontLeftModule = new TorqueSwerveModule2022("frontLeft", FL_MOD, FRONT_LEFT_MODULE_STEER_OFFSET -1.174990368758747, config);
 
@@ -137,6 +138,14 @@ public class DriveSubsystem extends SubsystemBase {
 
         m_backRightModule = new TorqueSwerveModule2022("backRight", BR_MOD, BACK_RIGHT_MODULE_STEER_OFFSET -2.391440058458112, config);
         speedScale = 4;
+
+        modules = new TorqueSwerveModule2022[] {
+            m_frontLeftModule,
+            m_frontRightModule,
+            m_backLeftModule,
+            m_backRightModule
+        };
+
     }
 
     /**
@@ -153,6 +162,10 @@ public class DriveSubsystem extends SubsystemBase {
     // LS changes speed to half
     public void changeSpeed(double speed) {
         speedScale = speed;
+        boolean isBrakeMode = speed > 4;
+        for ( TorqueSwerveModule2022 module : modules ) {
+            module.setIsBrake(isBrakeMode);
+        }
     }
 
     public static Rotation2d getGyroscopeRotation() {
