@@ -10,6 +10,7 @@ import com.pathplanner.lib.PathPlanner;
 import java.util.HashMap;
 import java.util.List;
 
+import org.texastorque.torquelib.swerve.TorqueSwerveModule2022;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
@@ -37,21 +38,21 @@ public class Auto extends SequentialCommandGroup {
   private static AutoBalance balance = new AutoBalance();
   
   /** Creates a new Auto. */
-  public Auto(DriveSubsystem drivetrain) {
+  public Auto(TorqueSwerveModule2022 drivetrain) {
 
 
 
     // SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-    //   drivetrain::getPosition, 
-    //   drivetrain::resetOdometry, 
-    //   Constants.DriveConstants.kDriveKinematics, 
-    //   new PIDConstants(1, 0, 0), //ETHANNNNNNN PID PID PID PID PID ENJOYYYYYY
-    //   new PIDConstants(1, 0, 0), //SAME HEREREEEEEEEE
-    //   drivetrain::setModuleStates, 
-    //   eventMap, 
-    //   true,
-    //   drivetrain
-    // );
+    //   drivetrain::getPosition, // Pose2d supplier
+    //   drivetrain::resetPosition, // Pose2d consumer, used to reset odometry at the beginning of auto
+    //   drivetrain::kinematics, // SwerveDriveKinematics
+    //   new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+    //   new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+    //   drivetrain::setDesiredState, // Module states consumer used to output to the drive subsystem
+    //   eventMap,
+    //   true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+    //   drivetrain // The drive subsystem. Used to properly set the requirements of path following commands
+  // );
 
      // eventMap.put("Score Cube", new ParallelRaceGroup(
     //   new ParallelCommandGroup(
@@ -101,7 +102,7 @@ public class Auto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // autoBuilder.fullAuto(pathGroup)
+      //autoBuilder.fullAuto(pathGroup)
     );
   }
 }

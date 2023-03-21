@@ -174,6 +174,10 @@ public class DriveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
     }
 
+    public SwerveDriveKinematics getKinematics() {
+        return m_kinematics;
+    }
+
     public void drive(ChassisSpeeds chassisSpeeds) {
         m_chassisSpeeds = chassisSpeeds;
     }

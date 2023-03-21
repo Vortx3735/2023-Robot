@@ -4,24 +4,32 @@
 
 package frc.robot;
 
+//import frc.robot.Constants.OIConstants;
+import static frc.robot.subsystems.DriveSubsystem.speedScale;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.Compressor;
+
 // ask ethan what this is
 // import javax.print.attribute.standard.JobHoldUntil;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Compressor;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import static frc.robot.subsystems.DriveSubsystem.*;
-//import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutoBalance;
+import frc.robot.commands.ClawComTalon;
+import frc.robot.commands.IndexerComTalon;
+import frc.robot.commands.IntakeComTalon;
+import frc.robot.subsystems.ClawSubTalon;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.IndexerSubTalon;
+import frc.robot.subsystems.IntakeSubTalon;
+import frc.robot.subsystems.VorTXController;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -63,6 +71,7 @@ public class RobotContainer {
 
     
     public static DriveSubsystem swerve = new DriveSubsystem();
+    public static AutoBalance balance = new AutoBalance();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -230,35 +239,46 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
+        
+        return new RunCommand(
+            () -> swerve.drive(
+                new ChassisSpeeds(
+                    balance.scoreAndBalance(), 
+                    0,
+                    0
+                )
+            ),
+            swerve
+        );
 
         //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
-        return new SequentialCommandGroup(
-            new ParallelRaceGroup(
-                new RunCommand(
-                    () -> swerve.drive(
-                        new ChassisSpeeds(
-                            -2,
-                            0,
-                            0
-                        )
-                    ),
-                swerve
-                ),
-                new WaitCommand(0.35)
-            ),
-            new ParallelRaceGroup(
-                new RunCommand(
-                    () -> swerve.drive(
-                        new ChassisSpeeds(
-                            1,
-                            0,
-                            0
-                        )
-                    ),
-                swerve
-                ),
-                new WaitCommand(4)
-            )
-        );
+        // return new SequentialCommandGroup(
+        //     new ParallelRaceGroup(
+        //         new RunCommand(
+        //             () -> swerve.drive(
+        //                 new ChassisSpeeds(
+        //                     -2,
+        //                     0,
+        //                     0
+        //                 )
+        //             ),
+        //         swerve
+        //         ),
+        //         new WaitCommand(0.35)
+        //     ),
+        //     new ParallelRaceGroup(
+        //         new RunCommand(
+        //             () -> swerve.drive(
+        //                 new ChassisSpeeds(
+        //                     1,
+        //                     0,
+        //                     0
+        //                 )
+        //             ),
+        //         swerve
+        //         ),
+        //         new WaitCommand(4)
+        //     )
+        // );
     }
 }
