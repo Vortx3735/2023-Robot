@@ -6,10 +6,14 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 // import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -62,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
             Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+    public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
             // Front left
             new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
             // Front right
@@ -72,6 +76,8 @@ public class DriveSubsystem extends SubsystemBase {
             // Back right
             new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
+        
+
     private final static AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
 
     // These are our modules. We initialize them in the constructor.
@@ -80,9 +86,12 @@ public class DriveSubsystem extends SubsystemBase {
     private final TorqueSwerveModule2022 m_backLeftModule;
     private final TorqueSwerveModule2022 m_backRightModule;
     private final TorqueSwerveModule2022[] modules;
-
+    
+    private Pose2d m_pose;
+    private SwerveDriveOdometry m_odometry;
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+
 
     public DriveSubsystem() {
         //ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -122,10 +131,10 @@ public class DriveSubsystem extends SubsystemBase {
 
        final SwerveConfig config = SwerveConfig.defaultConfig;
 
-       config.maxVelocity = 5;
-       config.maxAcceleration = 9;
-       config.maxAngularVelocity = 5;
-       config.maxAngularAcceleration = 5 ;
+       config.maxVelocity = 4.5;
+       config.maxAcceleration = 3;
+       config.maxAngularVelocity = Math.PI;
+       config.maxAngularAcceleration = Math.PI;
 
         m_frontLeftModule = new TorqueSwerveModule2022("frontLeft", FL_MOD, FRONT_LEFT_MODULE_STEER_OFFSET -1.174990368758747, config);
 
@@ -137,7 +146,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_backLeftModule = new TorqueSwerveModule2022("backLeft", BL_MOD, BACK_LEFT_MODULE_STEER_OFFSET + 1.029346505702506, config);
 
         m_backRightModule = new TorqueSwerveModule2022("backRight", BR_MOD, BACK_RIGHT_MODULE_STEER_OFFSET -2.391440058458112, config);
-        speedScale = 4;
+        speedScale = 10;
 
         modules = new TorqueSwerveModule2022[] {
             m_frontLeftModule,
@@ -145,6 +154,15 @@ public class DriveSubsystem extends SubsystemBase {
             m_backLeftModule,
             m_backRightModule
         };
+
+        m_odometry = new SwerveDriveOdometry(
+            m_kinematics, getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+                m_frontLeftModule.getPosition(),
+                m_frontRightModule.getPosition(),
+                m_backLeftModule.getPosition(),
+                m_backRightModule.getPosition()
+            }, new Pose2d(5.0, 13.5, new Rotation2d()));
 
     }
 
@@ -157,12 +175,37 @@ public class DriveSubsystem extends SubsystemBase {
         m_navx.zeroYaw();
     }
 
+    public Pose2d getPose() {
+        return m_pose;
+    }
+
+    public void resetPose(Pose2d pose) {
+        pose = getPose();
+        m_odometry.resetPosition(
+            getGyroscopeRotation(), 
+            new SwerveModulePosition[] {
+                m_frontLeftModule.getPosition(),
+                m_frontRightModule.getPosition(),
+                m_backLeftModule.getPosition(),
+                m_backRightModule.getPosition() 
+            }, pose
+        );        
+    }
+
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 4.42);
+        
+        for(TorqueSwerveModule2022 mod : modules){
+            mod.setDesiredState(desiredStates[mod.getPort()]);
+        }
+    }   
+
     // R1 changes speed to triple
     // RS changes speed to normal
     // LS changes speed to half
     public void changeSpeed(double speed) {
         speedScale = speed;
-        boolean isBrakeMode = speed > 4;
+        boolean isBrakeMode = speed < 3;
         for ( TorqueSwerveModule2022 module : modules ) {
             module.setIsBrake(isBrakeMode);
         }
@@ -174,10 +217,6 @@ public class DriveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
     }
 
-    public SwerveDriveKinematics getKinematics() {
-        return m_kinematics;
-    }
-
     public void drive(ChassisSpeeds chassisSpeeds) {
         m_chassisSpeeds = chassisSpeeds;
     }
@@ -187,6 +226,13 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putString("gyro", "" + m_navx.getYaw());
         SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+
+        m_pose = m_odometry.update(getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+                m_frontLeftModule.getPosition(), m_frontRightModule.getPosition(),
+                m_backLeftModule.getPosition(), m_backRightModule.getPosition()
+            }
+        );
 
         m_frontLeftModule.setDesiredState(states[0]);
         m_frontRightModule.setDesiredState(states[1]);

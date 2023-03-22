@@ -176,19 +176,10 @@ public class RobotContainer {
         //          elevatorsub)
         //  );
 
-        // R1 changes speed to quad
-        // RS changes speed to normal
-        // LS changes speed to half
-        // if speed is set to anything > 4, 
+        // R1 changes speed to as fast as possible
+        // L1 changes speed to really slow
+        // if speed is set to anything > 4, motor controllers set to brake 
         con1.r1.onTrue(
-            new InstantCommand(
-                () -> {
-                    swerve.changeSpeed(4);
-                },
-                swerve
-            )
-        );
-        con1.rs.onTrue(
             new InstantCommand(
                 () -> {
                     swerve.changeSpeed(10);
@@ -196,7 +187,7 @@ public class RobotContainer {
                 swerve
             )
         );
-        con1.ls.onTrue(
+        con1.l1.onTrue(
             new InstantCommand(
                 () -> {
                     swerve.changeSpeed(0.5);
@@ -205,7 +196,7 @@ public class RobotContainer {
             )
         );
 
-        con1.l1.onTrue(
+        con1.options.onTrue(
            new InstantCommand(
                 swerve::zeroGyroscope,
                 swerve

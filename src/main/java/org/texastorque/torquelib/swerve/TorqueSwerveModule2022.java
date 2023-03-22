@@ -16,6 +16,7 @@ import com.ctre.phoenix.sensors.SensorTimeBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -130,6 +131,8 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
 
     public boolean useCancoder = true;
 
+    SwerveDriveKinematics n_Kinematics;
+
     public TorqueSwerveModule2022(final String name, final SwervePorts ports, final double staticOffset,
                                   final SwerveConfig config) {
         this(name, ports.drive, ports.turn, ports.encoder, staticOffset, config);
@@ -201,7 +204,9 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
         return new SwerveModuleState(drive.getVelocity(), getRotation());
     }
 
-    public SwerveModulePosition getPosition() { return new SwerveModulePosition(drive.getPosition(), getRotation()); }
+    public SwerveModulePosition getPosition() { 
+        return new SwerveModulePosition(drive.getPosition(), getRotation()); 
+    }
 
     @Override
     public Rotation2d getRotation() {
