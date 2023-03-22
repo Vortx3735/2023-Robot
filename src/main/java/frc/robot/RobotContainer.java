@@ -7,6 +7,9 @@ package frc.robot;
 //import frc.robot.Constants.OIConstants;
 import static frc.robot.subsystems.DriveSubsystem.speedScale;
 
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Compressor;
 
@@ -20,16 +23,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.AutoBalance;
-import frc.robot.commands.ClawComTalon;
-import frc.robot.commands.IndexerComTalon;
-import frc.robot.commands.IntakeComTalon;
-import frc.robot.subsystems.ClawSubTalon;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.IndexerSubTalon;
-import frc.robot.subsystems.IntakeSubTalon;
-import frc.robot.subsystems.VorTXController;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,6 +61,7 @@ public class RobotContainer {
     // public static PhotonSub limelight = new PhotonSub("ur mother");
     public static Gyro gyro = new Gyro();
     public static Compressor phCompressor = new Compressor(11, PneumaticsModuleType.CTREPCM);
+    public static Auto auto = new Auto();
 
     // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
 
@@ -73,9 +69,22 @@ public class RobotContainer {
     public static DriveSubsystem swerve = new DriveSubsystem();
     public static AutoBalance balance = new AutoBalance();
 
+    public SwerveAutoBuilder autoBuilder;
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         phCompressor.enableDigital();
+
+        autoBuilder = new SwerveAutoBuilder(
+            swerve::getPose, // Pose2d supplier
+            swerve::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
+            swerve.m_kinematics, // SwerveDriveKinematics
+            new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+            new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+            swerve::setModuleStates, // Module states consumer used to output to the drive subsystem
+            auto.eventMap,
+            swerve // The drive subsystem. Used to properly set the requirements of path following commands
+        );
 
         // Configure the button bindings
         configureButtonBindings();
@@ -219,9 +228,7 @@ public class RobotContainer {
 
     }
 
-    // command group
-    //  c1
-    //  c2
+    
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -231,16 +238,18 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         
-        return new RunCommand(
-            () -> swerve.drive(
-                new ChassisSpeeds(
-                    balance.scoreAndBalance(), 
-                    0,
-                    0
-                )
-            ),
-            swerve
-        );
+        return autoBuilder.fullAuto(auto.pathGroup);
+
+        // return new RunCommand(
+        //     () -> swerve.drive(
+        //         new ChassisSpeeds(
+        //             balance.scoreAndBalance(), 
+        //             0,
+        //             0
+        //         )
+        //     ),
+        //     swerve
+        // );
 
         //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
         // return new SequentialCommandGroup(

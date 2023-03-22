@@ -7,6 +7,7 @@ package frc.robot.commands;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlanner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,29 +33,16 @@ import frc.robot.RobotContainer;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto extends SequentialCommandGroup {
-  List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("Straight", new PathConstraints(1, 2));
+  
+  public List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("Straight", new PathConstraints(4.5, 3));
 
-  private static HashMap<String, Command> eventMap = new HashMap<>();
+  public HashMap<String, Command> eventMap = new HashMap<>();
   private static AutoBalance balance = new AutoBalance();
   
   /** Creates a new Auto. */
-  public Auto(DriveSubsystem drivetrain) {
+  public Auto() {
 
-
-
-  SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-      drivetrain::getPose, // Pose2d supplier
-      drivetrain::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
-      drivetrain.m_kinematics, // SwerveDriveKinematics
-      new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
-      new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
-      drivetrain::setModuleStates, // Module states consumer used to output to the drive subsystem
-      eventMap,
-      true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-      drivetrain // The drive subsystem. Used to properly set the requirements of path following commands
-  );
-
-     // eventMap.put("Score Cube", new ParallelRaceGroup(
+    // eventMap.put("Score Cube", new ParallelRaceGroup(
     //   new ParallelCommandGroup(
     //     new RunCommand(
     //       RobotContainer.intake::rev,
