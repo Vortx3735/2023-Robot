@@ -22,6 +22,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public enum AutomationStrategy {
+    ENHANCED,
+    MINIMAL
+  }
+
   public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.631;
   public static final double DRIVETRAIN_WHEELBASE_METERS = 0.632;
 

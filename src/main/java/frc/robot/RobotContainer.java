@@ -7,8 +7,6 @@ package frc.robot;
 //import frc.robot.Constants.OIConstants;
 import static frc.robot.subsystems.DriveSubsystem.speedScale;
 
-import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Compressor;
@@ -23,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -61,30 +61,26 @@ public class RobotContainer {
     // public static PhotonSub limelight = new PhotonSub("ur mother");
     public static Gyro gyro = new Gyro();
     public static Compressor phCompressor = new Compressor(11, PneumaticsModuleType.CTREPCM);
-    public static Auto auto = new Auto();
 
-    // public static Command basicDoubleScoreTopAuto = AutonCom.makeAutoCommand(swerve, "Basic Double Score Top", intakesub, intake);
-
-    
+    // public static Auto test = new Auto("Straight");
     public static DriveSubsystem swerve = new DriveSubsystem();
     public static AutoBalance balance = new AutoBalance();
+    
+    private static final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-    public SwerveAutoBuilder autoBuilder;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
         phCompressor.enableDigital();
 
-        autoBuilder = new SwerveAutoBuilder(
-            swerve::getPose, // Pose2d supplier
-            swerve::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
-            swerve.m_kinematics, // SwerveDriveKinematics
-            new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
-            new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
-            swerve::setModuleStates, // Module states consumer used to output to the drive subsystem
-            auto.eventMap,
-            swerve // The drive subsystem. Used to properly set the requirements of path following commands
-        );
+        Auton.init(); 
+
+        autoChooser.setDefaultOption("Straight", Auton.straightPath());
+        autoChooser.addOption("None", Auton.none());
+
+
+        SmartDashboard.putData("Autonomous Mode", autoChooser);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -115,9 +111,6 @@ public class RobotContainer {
         swerve.setDefaultCommand(
             // The left stick controls translation of the robot.
             // Turning is controlled by the X axis of the right stick.
-            // R1 changes speed to triple
-            // RS changes speed to normal
-            // LS changes speed to half
             new RunCommand(
                 () -> swerve.drive(
                     ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -125,10 +118,6 @@ public class RobotContainer {
                         con1.getLeftX()*speedScale,
                         con1.getRightX()*1.5*speedScale, 
                         DriveSubsystem.getGyroscopeRotation())
-                    // new ChassisSpeeds(
-                    //     con1.getLeftY()*speedScale,
-                    //     con1.getLeftX()*speedScale,
-                    //     con1.getRightX()*3*speedScale)),
                     ),
                     swerve
             )
@@ -238,8 +227,10 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         
-        return autoBuilder.fullAuto(auto.pathGroup);
-
+        // return test;
+    
+        return autoChooser.getSelected();
+        
         // return new RunCommand(
         //     () -> swerve.drive(
         //         new ChassisSpeeds(

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 import static frc.robot.Constants.*;
 
 import org.texastorque.torquelib.swerve.TorqueSwerveModule2022;
@@ -138,10 +139,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         m_frontLeftModule = new TorqueSwerveModule2022("frontLeft", FL_MOD, FRONT_LEFT_MODULE_STEER_OFFSET -1.174990368758747, config);
 
-
         // We will do the same for the other modules
         m_frontRightModule = new TorqueSwerveModule2022("frontRight", FR_MOD, FRONT_RIGHT_MODULE_STEER_OFFSET -2.647602763765622, config);
-
 
         m_backLeftModule = new TorqueSwerveModule2022("backLeft", BL_MOD, BACK_LEFT_MODULE_STEER_OFFSET + 1.029346505702506, config);
 
@@ -191,14 +190,6 @@ public class DriveSubsystem extends SubsystemBase {
             }, pose
         );        
     }
-
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 4.42);
-        
-        for(TorqueSwerveModule2022 mod : modules){
-            mod.setDesiredState(desiredStates[mod.getPort()]);
-        }
-    }   
 
     // R1 changes speed to triple
     // RS changes speed to normal
