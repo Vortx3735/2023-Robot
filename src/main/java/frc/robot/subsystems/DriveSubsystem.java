@@ -20,13 +20,11 @@ import edu.wpi.first.wpilibj.SPI;
 // import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.subsystems.torquelib.swerve.TorqueSwerveModule2022;
+import frc.robot.subsystems.torquelib.swerve.TorqueSwerveModule2022.SwerveConfig;
+import frc.robot.subsystems.torquelib.swerve.TorqueSwerveModule2022.SwervePorts;
 
 import static frc.robot.Constants.*;
-
-import org.texastorque.torquelib.swerve.TorqueSwerveModule2022;
-import org.texastorque.torquelib.swerve.TorqueSwerveModule2022.SwerveConfig;
-import org.texastorque.torquelib.swerve.TorqueSwerveModule2022.SwervePorts;
 
 public class DriveSubsystem extends SubsystemBase {
     /**
@@ -210,6 +208,14 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void drive(ChassisSpeeds chassisSpeeds) {
         m_chassisSpeeds = chassisSpeeds;
+    }
+
+    public void autonDrive(ChassisSpeeds chassisSpeeds) {
+        m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            chassisSpeeds.vyMetersPerSecond*0.1,
+            chassisSpeeds.vxMetersPerSecond*0.1,
+            chassisSpeeds.omegaRadiansPerSecond*0.5,
+            DriveSubsystem.getGyroscopeRotation());
     }
 
     @Override

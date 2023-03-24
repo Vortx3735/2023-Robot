@@ -4,9 +4,7 @@
  * This file is part of TorqueLib, which is licensed under the MIT license.
  * For more details, see ./license.txt or write <jus@justusl.com>.
  */
-package org.texastorque.torquelib.swerve;
-
-import org.texastorque.torquelib.motors.TorqueNEO;
+package frc.robot.subsystems.torquelib.swerve;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
@@ -20,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.torquelib.motors.TorqueNEO;
 
 /**
  * Super cool flipped swerve module built in 2023 by Abishek.
@@ -67,14 +66,14 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
 
                 // The following will most likely need to be overriden
                 // depending on the weight of each robot
-                driveStaticGain = 0.015, driveFeedForward = 0.212, drivePGain = 0.2, driveIGain = 0.0, driveDGain = 0.0,
+                driveStaticGain = 0.015, driveFeedForward = 0.212, drivePGain = 0.18, driveIGain = 0.0, driveDGain = 0.0,
 
                       driveRampRate = 3.0,    // %power/s
                 driveGearRatio = 6.57,        // Translation motor to wheel
                 wheelDiameter = 4.0 * 0.0254, // m
                 driveVelocityFactor = (1.0 / driveGearRatio / 60.0) * (wheelDiameter * Math.PI), // m/s
                 drivePoseFactor = (1.0 / driveGearRatio) * (wheelDiameter * Math.PI),            // m
-                turnPGain = 0.5, turnIGain = 0.0, turnDGain = 0.0,
+                turnPGain = 0.4, turnIGain = 0.0, turnDGain = 0.0,
                       turnGearRatio = 12.41; // Rotation motor to wheel
     }
 

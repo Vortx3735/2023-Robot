@@ -25,19 +25,20 @@ public final class Auton {
   public static PathPlannerTrajectory straightPath;
   
   public static List<PathPlannerTrajectory> straightPathGroup; 
-  public static Command straightPathCommand;  
+  public static Command straightPathCommand;
 
   public static void init() {
     eventMap = buildEventMap();
+    RobotContainer.swerve.zeroGyroscope();
 
-    straightPathGroup = PathPlanner.loadPathGroup("Straight", new PathConstraints(4.5, 3));
+    straightPathGroup = PathPlanner.loadPathGroup("Straight", new PathConstraints(2, 1));
     
     autoBuilder = new SwerveAutoBuilder(
         RobotContainer.swerve::getPose, 
         RobotContainer.swerve::resetPose, 
-        new PIDConstants(5.0, 0.0, 0.0), 
-        new PIDConstants(0.5, 0.0, 0.0), 
-        RobotContainer.swerve::drive, 
+        new PIDConstants(.5, 0.0, 0.0), 
+        new PIDConstants(0, 0.0, 0.0), 
+        RobotContainer.swerve::autonDrive, 
         eventMap,
         RobotContainer.swerve
     );

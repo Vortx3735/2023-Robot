@@ -4,7 +4,7 @@
  * This file is part of TorqueLib, which is licensed under the MIT license.
  * For more details, see ./license.txt or write <jus@justusl.com>.
  */
-package org.texastorque.torquelib.swerve;
+package frc.robot.subsystems.torquelib.swerve;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
