@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static edu.wpi.first.wpilibj.DriverStation.*;
-import frc.robot.RobotContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

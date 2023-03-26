@@ -55,8 +55,8 @@ public class RobotContainer {
     public static ClawSubTalon clawsub = new ClawSubTalon();
     public static ClawComTalon claw = new ClawComTalon(clawsub);
 
-    //public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
-    //public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
+    public static ElevatorSub elevatorsub = new ElevatorSub(1, 2);
+    public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
 
     // public static PhotonSub limelight = new PhotonSub("ur mother");
     public static Gyro gyro = new Gyro();
@@ -97,14 +97,14 @@ public class RobotContainer {
             )
         );
         
-        /*
+        
         elevatorsub.setDefaultCommand(
             new RunCommand(
                 elevator::hold,
                 elevatorsub
             )
         );
-        */
+        
 
     
 
@@ -161,18 +161,18 @@ public class RobotContainer {
             )
         );
 
-        // con1.triangle.whileTrue(
-        //     new RunCommand(
-        //         elevator::startMotor,
-        //         elevatorsub
-        //     )
-        // );
+        con2.triangle.whileTrue(
+            new RunCommand(
+                elevator::startMotor,
+                elevatorsub
+            )
+        );
 
-        //  con1.square.whileTrue( 
-        //      new RunCommand(
-        //          elevator::reverseMotor,
-        //          elevatorsub)
-        //  );
+         con2.square.whileTrue( 
+             new RunCommand(
+                 elevator::reverseMotor,
+                 elevatorsub)
+         );
 
         // R1 changes speed to as fast as possible
         // L1 changes speed to really slow
