@@ -113,7 +113,7 @@ public class RobotContainer {
                         //1,0,0,
                         MathUtil.applyDeadband(con1.getLeftY(), 0.1)*speedScale,
                         MathUtil.applyDeadband(con1.getLeftX(), 0.1)*speedScale,
-                        MathUtil.applyDeadband(con1.getRightX(), 0.1)*1.5*speedScale, 
+                        MathUtil.applyDeadband(con1.getRightX(), 0.1)*1*speedScale, 
                         DriveSubsystem.getGyroscopeRotation())
                     ),
                     swerve
@@ -185,7 +185,7 @@ public class RobotContainer {
         con1.l1.onTrue(
             new InstantCommand(
                 () -> {
-                    swerve.changeSpeed(0.5);
+                    swerve.changeSpeed(1);
                 },
                 swerve
             )

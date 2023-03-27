@@ -23,6 +23,7 @@ public class Gyro extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //System.out.println(gyro.getYaw());
+    SmartDashboard.putNumber("Orientation Degrees", gyro.getYaw());
   }
 
   @Override

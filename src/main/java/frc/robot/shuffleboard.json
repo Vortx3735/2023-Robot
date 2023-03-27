@@ -112,6 +112,19 @@
               "imageWidth": -1,
               "imageHeight": -1
             }
+          },
+          "6,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Orientation Degrees",
+              "_title": "Orientation Degrees",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
