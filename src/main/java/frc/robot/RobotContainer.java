@@ -7,7 +7,7 @@ package frc.robot;
 //import frc.robot.Constants.OIConstants;
 import static frc.robot.subsystems.DriveSubsystem.speedScale;
 
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Compressor;
 
@@ -36,7 +36,6 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     
     public static VorTXController con1 = new VorTXController(0);
-    
     //  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     
     public static VorTXController con2 = new VorTXController(1);
@@ -67,7 +66,6 @@ public class RobotContainer {
     public static AutoBalance balance = new AutoBalance();
     
     private static final SendableChooser<Command> autoChooser = new SendableChooser<>();
-
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -106,17 +104,16 @@ public class RobotContainer {
         );
         
 
-    
-
         swerve.setDefaultCommand(
             // The left stick controls translation of the robot.
             // Turning is controlled by the X axis of the right stick.
             new RunCommand(
                 () -> swerve.drive(
                     ChassisSpeeds.fromFieldRelativeSpeeds(
-                        con1.getLeftY()*speedScale,
-                        con1.getLeftX()*speedScale,
-                        con1.getRightX()*1.5*speedScale, 
+                        //1,0,0,
+                        MathUtil.applyDeadband(con1.getLeftY(), 0.1)*speedScale,
+                        MathUtil.applyDeadband(con1.getLeftX(), 0.1)*speedScale,
+                        MathUtil.applyDeadband(con1.getRightX(), 0.1)*1.5*speedScale, 
                         DriveSubsystem.getGyroscopeRotation())
                     ),
                     swerve

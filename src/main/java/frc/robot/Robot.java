@@ -60,6 +60,9 @@ public class Robot extends TimedRobot {
     //add how far the elevator is extended (percentage)  
     SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
     SmartDashboard.putNumber("Match Time", getMatchTime());
+    SmartDashboard.putNumber("con1 y", RobotContainer.con1.getLeftY());
+    SmartDashboard.putNumber("con1 x", RobotContainer.con1.getLeftX());
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

@@ -73,7 +73,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
                 wheelDiameter = 4.0 * 0.0254, // m
                 driveVelocityFactor = (1.0 / driveGearRatio / 60.0) * (wheelDiameter * Math.PI), // m/s
                 drivePoseFactor = (1.0 / driveGearRatio) * (wheelDiameter * Math.PI),            // m
-                turnPGain = 0.4, turnIGain = 0.0, turnDGain = 0.0,
+                turnPGain = 0.7, turnIGain = 0.0, turnDGain = 0.0,
                       turnGearRatio = 12.41; // Rotation motor to wheel
     }
 
@@ -107,7 +107,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
         while (coterminal > Math.PI || coterminal < -Math.PI) coterminal -= full;
         return coterminal;
     }
-    private final SwerveConfig config;
+    public final SwerveConfig config;
 
     // The NEO motors for turn and drive.
     private final TorqueNEO drive, turn;

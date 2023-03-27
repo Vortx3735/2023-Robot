@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.torquelib.swerve.TorqueSwerveModule2022.SwerveConfig;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,21 +28,25 @@ public final class Auton {
   
   public static List<PathPlannerTrajectory> straightPathGroup; 
   public static Command straightPathCommand;
+  public static DriveSubsystem swerveDrive;
 
   public static void init() {
     eventMap = buildEventMap();
     RobotContainer.swerve.zeroGyroscope();
+    swerveDrive = RobotContainer.swerve;
+    final SwerveConfig config = SwerveConfig.defaultConfig;
+
 
     straightPathGroup = PathPlanner.loadPathGroup("Straight", new PathConstraints(2, 1));
     
     autoBuilder = new SwerveAutoBuilder(
-        RobotContainer.swerve::getPose, 
-        RobotContainer.swerve::resetPose, 
-        new PIDConstants(.5, 0.0, 0.0), 
-        new PIDConstants(0, 0.0, 0.0), 
-        RobotContainer.swerve::autonDrive, 
+        swerveDrive::getPose, 
+        swerveDrive::resetPose, 
+        new PIDConstants(config.drivePGain, config.driveIGain, config.driveDGain), 
+        new PIDConstants(config.turnPGain, config.turnIGain, config.turnDGain), 
+        swerveDrive::autonDrive, 
         eventMap,
-        RobotContainer.swerve
+        swerveDrive
     );
 
     eventMap.put("Pick Cube", pickCube());

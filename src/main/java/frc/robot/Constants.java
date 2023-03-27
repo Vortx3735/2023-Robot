@@ -22,10 +22,10 @@ public final class Constants {
   public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.631;
   public static final double DRIVETRAIN_WHEELBASE_METERS = 0.632;
 
-  public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -2.557;
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -5.085;
-  public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -3.654 + Math.PI;
-  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -4.956;
+  public static final double FRONT_LEFT_MODULE_STEER_OFFSET  = -2.559;
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET  = -5.074;
+  public static final double BACK_LEFT_MODULE_STEER_OFFSET   = -0.514;
+  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -4.929;
 
   public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 14;
   public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 17;
