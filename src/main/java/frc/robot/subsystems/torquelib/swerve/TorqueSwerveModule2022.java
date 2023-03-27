@@ -194,7 +194,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
         // Calculate turn output
         final double turnPIDOutput = turnPID.calculate(getTurnEncoder(), optimized.angle.getRadians());
         log("Turn PID Output", turnPIDOutput);
-        SmartDashboard.putNumber(name, cancoder.getPosition());
+        //SmartDashboard.putNumber(name, cancoder.getPosition());
         turn.setPercent(turnPIDOutput);
     }
 
@@ -241,7 +241,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
 
     private double log(final String item, final double value) {
         final String key = name + "." + item.replaceAll(" ", "_").toLowerCase();
-        SmartDashboard.putNumber(String.format("%s::%s", name, key), value);
+        //SmartDashboard.putNumber(String.format("%s::%s", name, key), value);
         return value;
     }
 }

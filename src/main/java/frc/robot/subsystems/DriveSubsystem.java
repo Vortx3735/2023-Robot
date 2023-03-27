@@ -220,7 +220,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putString("gyro", "" + m_navx.getYaw());
         SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 

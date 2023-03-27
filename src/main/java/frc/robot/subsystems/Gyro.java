@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.*;
 
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Gyro extends SubsystemBase {
@@ -28,5 +28,6 @@ public class Gyro extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    SmartDashboard.putNumber("Orientation Degrees", gyro.getYaw());
   }
 }
