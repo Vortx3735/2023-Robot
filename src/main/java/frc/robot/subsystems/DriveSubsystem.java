@@ -91,7 +91,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-
     public DriveSubsystem() {
         //ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
@@ -200,10 +199,22 @@ public class DriveSubsystem extends SubsystemBase {
         }
     }
 
+    /*
+    * Method that returns adjusted yaw based off of drift we've observed
+    * Usually drifs around 5 degrees per rotation, or 5 degrees per 360 degrees
+    * Magic number ehehehehehee
+    * @return The yaw adjusted bu our observed drift
+    */
+    //byebye stage
+    public static double getDriftAdjustedYaw() {
+        double magic = 5.2;
+        return m_navx.getYaw() * (360 / (360 + magic));
+    }
+    
     public static Rotation2d getGyroscopeRotation() {
         // We have to invert the angle of the NavX so that rotating the robot
         // counter-clockwise makes the angle increase.
-        return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+        return Rotation2d.fromDegrees(360.0 - getDriftAdjustedYaw());
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -234,5 +245,10 @@ public class DriveSubsystem extends SubsystemBase {
         m_frontRightModule.setDesiredState(states[1]);
         m_backLeftModule.setDesiredState(states[2]);
         m_backRightModule.setDesiredState(states[3]);
+
+        SmartDashboard.putNumber("Orientation Degrees", m_navx.getYaw());
+        SmartDashboard.putNumber("DriftAdjusted", getDriftAdjustedYaw());
+        SmartDashboard.putString("getGyroRotation", getGyroscopeRotation().toString());
+
     }
 }

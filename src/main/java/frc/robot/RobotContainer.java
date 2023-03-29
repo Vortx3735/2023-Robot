@@ -59,7 +59,7 @@ public class RobotContainer {
     public static ElevatorCom elevator = new ElevatorCom(elevatorsub);
 
     // public static PhotonSub limelight = new PhotonSub("ur mother");
-    public static Gyro gyro = new Gyro();
+    public static AHRSWrapper gyro = new AHRSWrapper();
     public static Compressor phCompressor = new Compressor(11, PneumaticsModuleType.CTREPCM);
 
     // public static Auto test = new Auto("Straight");

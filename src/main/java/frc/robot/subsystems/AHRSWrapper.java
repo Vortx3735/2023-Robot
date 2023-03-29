@@ -9,21 +9,21 @@ import com.kauailabs.navx.frc.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Gyro extends SubsystemBase {
+public class AHRSWrapper extends SubsystemBase{
   /** Creates a new ExampleSubsystem. 
    * @cameraName the name from the photonvision gui
   */
   AHRS gyro;
-  public Gyro() {
+  public AHRSWrapper() {
     gyro = new AHRS();
     gyro.calibrate();
+    gyro.enableBoardlevelYawReset(false);
   } 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //System.out.println(gyro.getYaw());
-    SmartDashboard.putNumber("Orientation Degrees", gyro.getYaw());
+    //System.out.println(gyro.getYaw());  
   }
 
   @Override
