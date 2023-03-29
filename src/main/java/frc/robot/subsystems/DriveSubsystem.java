@@ -160,6 +160,10 @@ public class DriveSubsystem extends SubsystemBase {
                 m_backRightModule.getPosition()
             }, new Pose2d(5.0, 13.5, new Rotation2d()));
 
+        for ( TorqueSwerveModule2022 module : modules ) {
+            module.setIsBrake(true);
+        }
+
     }
 
     /**
@@ -207,7 +211,7 @@ public class DriveSubsystem extends SubsystemBase {
     */
     //byebye stage
     public static double getAdjustedYaw() {
-        double magic = 360/365;
+        double magic = 360.0/365;
         double raw_angle = m_navx.getAngle();
         double adjusted_angle = raw_angle * magic;
         double adjusted_orientation = adjusted_angle % 360;
@@ -252,9 +256,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_backLeftModule.setDesiredState(states[2]);
         m_backRightModule.setDesiredState(states[3]);
 
-        SmartDashboard.putNumber("Orientation Degrees", m_navx.getYaw());
+        SmartDashboard.putNumber("Yaw", m_navx.getYaw());
+        SmartDashboard.putNumber("Angle", m_navx.getAngle());
         SmartDashboard.putNumber("DriftAdjusted", getAdjustedYaw());
-        SmartDashboard.putString("getGyroRotation", getGyroscopeRotation().toString());
         SmartDashboard.putNumber("Pitch", m_navx.getPitch());
         SmartDashboard.putNumber("Roll", m_navx.getRoll());
 

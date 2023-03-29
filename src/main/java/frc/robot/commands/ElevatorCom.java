@@ -38,9 +38,13 @@ public class ElevatorCom extends CommandBase {
     elevate.move(-0.3);
   }
 
-  // public void hold() {
-  //   elevate.hold();
-  // }
+  public void moveMotor(double speed) {
+    elevate.move(speed);
+  }
+
+  public void hold() {
+    elevate.hold();
+  }
 
 
   // Called when the command is initially scheduled.

@@ -60,6 +60,7 @@ public class RobotContainer {
 
     // public static PhotonSub limelight = new PhotonSub("ur mother");
     public static AHRSWrapper gyro = new AHRSWrapper();
+
     public static Compressor phCompressor = new Compressor(11, PneumaticsModuleType.CTREPCM);
 
     // public static Auto test = new Auto("Straight");
@@ -71,7 +72,8 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         
-        phCompressor.enableDigital();
+        phCompressor.disable();
+
 
         Auton.init(); 
 
@@ -97,12 +99,12 @@ public class RobotContainer {
         );
         
         
-        // elevatorsub.setDefaultCommand(
-        //     new RunCommand(
-        //         elevator::hold,
-        //         elevatorsub
-        //     )
-        // );
+        elevatorsub.setDefaultCommand(
+            new RunCommand(
+                elevator::hold,
+                elevatorsub
+            )
+        );
         
 
         swerve.setDefaultCommand(
@@ -137,7 +139,8 @@ public class RobotContainer {
                 new RunCommand(
                     indexer::start,
                     indexersub
-                ),
+                )
+                ,
                 new RunCommand(
                     intake::startIntake,
                     intakesub
@@ -151,7 +154,8 @@ public class RobotContainer {
                 new RunCommand(
                     indexer::rev,
                     indexersub
-                ),
+                )
+                ,
                 new RunCommand(
                     intake::rev,
                     intakesub
@@ -159,18 +163,28 @@ public class RobotContainer {
             )
         );
 
-        // con2.triangle.whileTrue(
-        //     new RunCommand(
-        //         elevator::startMotor,
-        //         elevatorsub
-        //     )
-        // );
 
-        //  con2.square.whileTrue( 
-        //      new RunCommand(
-        //          elevator::reverseMotor,
-        //          elevatorsub)
-        //  );
+        con2.r1.whileTrue(
+            new RunCommand(
+                elevator::reverseMotor,
+                elevatorsub
+            )
+        );
+
+        con2.triangle.whileTrue(
+            new RunCommand(
+                elevator::startMotor,
+                elevatorsub
+            )
+        );
+
+        
+
+        con2.square.whileTrue( 
+            new RunCommand(
+                elevator::reverseMotor,
+                elevatorsub)
+        );
 
         // R1 changes speed to as fast as possible
         // L1 changes speed to really slow
@@ -186,7 +200,7 @@ public class RobotContainer {
         con1.l1.onTrue(
             new InstantCommand(
                 () -> {
-                    swerve.changeSpeed(1);
+                    swerve.changeSpeed(0.05);
                 },
                 swerve
             )
@@ -206,7 +220,7 @@ public class RobotContainer {
             )
         );
 
-        con2.r1.onTrue(
+        con2.r2.onTrue(
             new InstantCommand(
                 claw::grab,
                 clawsub
