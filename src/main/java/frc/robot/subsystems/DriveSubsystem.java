@@ -261,7 +261,6 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("DriftAdjusted", getAdjustedYaw());
         SmartDashboard.putNumber("Pitch", m_navx.getPitch());
         SmartDashboard.putNumber("Roll", m_navx.getRoll());
-        SmartDashboard.putNumber("Anglwe", m_navx.getAngle());
 
     }
 }

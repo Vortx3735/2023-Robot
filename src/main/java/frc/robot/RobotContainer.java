@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -72,7 +71,8 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         
-        phCompressor.disable();
+        phCompressor.enableDigital();
+        //phCompressor.disable();
 
 
         Auton.init(); 
@@ -133,58 +133,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        // //  index and intake
-        con2.circle.whileTrue(
-            new ParallelCommandGroup(
-                new RunCommand(
-                    indexer::start,
-                    indexersub
-                )
-                ,
-                new RunCommand(
-                    intake::startIntake,
-                    intakesub
-                )
-            )
-        );
-
-        // // outtake
-        con2.cross.whileTrue(
-            new ParallelCommandGroup(
-                new RunCommand(
-                    indexer::rev,
-                    indexersub
-                )
-                ,
-                new RunCommand(
-                    intake::rev,
-                    intakesub
-                )
-            )
-        );
-
-
-        con2.r1.whileTrue(
-            new RunCommand(
-                elevator::reverseMotor,
-                elevatorsub
-            )
-        );
-
-        con2.triangle.whileTrue(
-            new RunCommand(
-                elevator::startMotor,
-                elevatorsub
-            )
-        );
-
-        
-
-        con2.square.whileTrue( 
-            new RunCommand(
-                elevator::reverseMotor,
-                elevatorsub)
-        );
 
         // R1 changes speed to as fast as possible
         // L1 changes speed to really slow
@@ -213,14 +161,60 @@ public class RobotContainer {
            ) 
         );
 
-        con2.l1.onTrue(
+        // //  index and intake
+        con2.l1.whileTrue(
+            new ParallelCommandGroup(
+                new RunCommand(
+                    indexer::start,
+                    indexersub
+                )
+                ,
+                new RunCommand(
+                    intake::startIntake,
+                    intakesub
+                )
+            )
+        );
+
+        // // outtake
+        con2.circle.whileTrue(
+            new ParallelCommandGroup(
+                new RunCommand(
+                    indexer::rev,
+                    indexersub
+                )
+                ,
+                new RunCommand(
+                    intake::rev,
+                    intakesub
+                )
+            )
+        );
+
+
+        con2.l2.whileTrue(
+            new RunCommand(
+                elevator::reverseMotor,
+                elevatorsub
+            )
+        );
+
+        con2.r2.whileTrue(
+            new RunCommand(
+                elevator::startMotor,
+                elevatorsub
+            )
+        );
+
+
+        con2.r1.onTrue(
             new InstantCommand(
                 intake::push,
                 intakesub
             )
         );
 
-        con2.r2.onTrue(
+        con2.cross.onTrue(
             new InstantCommand(
                 claw::grab,
                 clawsub

@@ -17,7 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.torquelib.motors.TorqueNEO;
 
 /**
@@ -240,7 +240,7 @@ public final class TorqueSwerveModule2022 extends TorqueSwerveModule {
     }
 
     private double log(final String item, final double value) {
-        final String key = name + "." + item.replaceAll(" ", "_").toLowerCase();
+        // final String key = name + "." + item.replaceAll(" ", "_").toLowerCase();
         //SmartDashboard.putNumber(String.format("%s::%s", name, key), value);
         return value;
     }

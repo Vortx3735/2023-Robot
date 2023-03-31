@@ -46,13 +46,13 @@ public class IntakeSubTalon extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Intake Pneumatic Open", phIntakeDoubleSolenoid.get() == kReverse);
+    SmartDashboard.putBoolean("Intake Pneumatic Open", phIntakeDoubleSolenoid.get() == kForward);
 
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
-    SmartDashboard.putBoolean("Intake Pneumatic Open", phIntakeDoubleSolenoid.get() == kReverse);
+    SmartDashboard.putBoolean("Intake Pneumatic Open", phIntakeDoubleSolenoid.get() == kForward);
   }
 }

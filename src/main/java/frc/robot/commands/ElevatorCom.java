@@ -3,9 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-
 import frc.robot.subsystems.ElevatorSub;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -14,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ElevatorCom extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ElevatorSub elevate;
+  private DigitalInput limitSwitchTop = new DigitalInput(0);
+  private DigitalInput limitSwitchBottom = new DigitalInput(1);
 
   /**
    * Creates a new ExampleCommand.
@@ -27,7 +28,11 @@ public class ElevatorCom extends CommandBase {
   }
 
   public void startMotor() {
-    elevate.move(0.3);
+    if(!limitSwitchTop.get()) {
+      elevate.move(0.7);
+    } else {
+      elevate.move(0);
+    }
   }
 
   public void stopMotor() {
@@ -35,7 +40,11 @@ public class ElevatorCom extends CommandBase {
   }
 
   public void reverseMotor() {
-    elevate.move(-0.3);
+    if(!limitSwitchBottom.get()) {
+      elevate.move(-0.5);
+    } else {
+      elevate.move(0);
+    }
   }
 
   public void moveMotor(double speed) {
