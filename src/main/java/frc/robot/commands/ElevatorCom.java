@@ -28,7 +28,7 @@ public class ElevatorCom extends CommandBase {
   }
 
   public void startMotor() {
-    if(!limitSwitchTop.get()) {
+    if(limitSwitchTop.get()) {
       elevate.move(0.7);
     } else {
       elevate.move(0);
@@ -40,7 +40,7 @@ public class ElevatorCom extends CommandBase {
   }
 
   public void reverseMotor() {
-    if(!limitSwitchBottom.get()) {
+    if(limitSwitchBottom.get()) {
       elevate.move(-0.5);
     } else {
       elevate.move(0);

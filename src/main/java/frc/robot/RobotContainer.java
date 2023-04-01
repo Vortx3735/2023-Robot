@@ -148,7 +148,7 @@ public class RobotContainer {
         con1.l1.onTrue(
             new InstantCommand(
                 () -> {
-                    swerve.changeSpeed(0.05);
+                    swerve.changeSpeed(0.5);
                 },
                 swerve
             )
