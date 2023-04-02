@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static edu.wpi.first.wpilibj.DriverStation.*;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -66,7 +66,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if(RobotContainer.intakesub.phIntakeDoubleSolenoid.get() == kForward) {
+      RobotContainer.intake.push();
+    }
+  }
 
   @Override
   public void disabledPeriodic() {}

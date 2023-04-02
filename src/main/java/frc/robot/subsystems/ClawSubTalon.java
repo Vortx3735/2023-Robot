@@ -21,6 +21,10 @@ public class ClawSubTalon extends SubsystemBase {
     phClawDoubleSolenoid.set(Value.kReverse);
   }
 
+  public void openClaw() {
+    phClawDoubleSolenoid.set(Value.kForward);
+  }
+  
   public void toggleClaw(){
     phClawDoubleSolenoid.toggle();
   }

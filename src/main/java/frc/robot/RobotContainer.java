@@ -20,7 +20,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
@@ -148,7 +151,7 @@ public class RobotContainer {
         con1.l1.onTrue(
             new InstantCommand(
                 () -> {
-                    swerve.changeSpeed(0.5);
+                    swerve.changeSpeed(1.5);
                 },
                 swerve
             )
@@ -172,6 +175,10 @@ public class RobotContainer {
                 new RunCommand(
                     intake::startIntake,
                     intakesub
+                ),
+                new InstantCommand(
+                    claw::open,
+                    clawsub
                 )
             )
         );
@@ -235,18 +242,53 @@ public class RobotContainer {
         
         // return test;
     
-        return autoChooser.getSelected();
+        // return autoChooser.getSelected();
         
-        // return new RunCommand(
-        //     () -> swerve.drive(
-        //         new ChassisSpeeds(
-        //             balance.scoreAndBalance(), 
-        //             0,
-        //             0
-        //         )
-        //     ),
-        //     swerve
-        // );
+        //return new RunCommand(
+        //    () -> swerve.drive(
+        //        new ChassisSpeeds(
+        //            -balance.scoreAndBalance(), 
+        //            0,
+        //            0
+        //        )
+        //    ),
+        //    swerve
+        //);
+
+
+        //secondary hardcoded auton
+        return new SequentialCommandGroup(
+            new InstantCommand(
+                intake::push,
+                intakesub
+            ),
+            new ParallelRaceGroup(
+                new ParallelCommandGroup(
+                    new RunCommand(
+                        indexer::rev,
+                        indexersub
+                    ),
+                    new RunCommand(
+                        intake::rev,
+                        intakesub
+                    )
+                ),
+                new WaitCommand(1)
+            ),
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> swerve.drive(
+                        new ChassisSpeeds(
+                            2,
+                            0,
+                            0
+                        )
+                    ),
+                swerve
+                ),
+                new WaitCommand(2.2)
+            )
+        );
 
         //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
         // return new SequentialCommandGroup(
@@ -254,7 +296,7 @@ public class RobotContainer {
         //         new RunCommand(
         //             () -> swerve.drive(
         //                 new ChassisSpeeds(
-        //                     -2,
+        //                     2,
         //                     0,
         //                     0
         //                 )
@@ -267,14 +309,14 @@ public class RobotContainer {
         //         new RunCommand(
         //             () -> swerve.drive(
         //                 new ChassisSpeeds(
-        //                     1,
+        //                     -1,
         //                     0,
         //                     0
         //                 )
         //             ),
         //         swerve
         //         ),
-        //         new WaitCommand(4)
+        //         new WaitCommand(4.4)
         //     )
         // );
     }

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubTalon extends SubsystemBase {
   TalonSRX IntakeTalon;
-  DoubleSolenoid phIntakeDoubleSolenoid;
+  public DoubleSolenoid phIntakeDoubleSolenoid;
   String state;
   /** Creates a new ExampleSubsystem. */
   public IntakeSubTalon(int ID) {

@@ -31,7 +31,7 @@ public class ElevatorCom extends CommandBase {
     if(limitSwitchTop.get()) {
       elevate.move(0.7);
     } else {
-      elevate.move(0);
+      elevate.hold();
     }
   }
 
@@ -43,7 +43,7 @@ public class ElevatorCom extends CommandBase {
     if(limitSwitchBottom.get()) {
       elevate.move(-0.5);
     } else {
-      elevate.move(0);
+      elevate.hold();
     }
   }
 
@@ -54,6 +54,14 @@ public class ElevatorCom extends CommandBase {
   public void hold() {
     elevate.hold();
   }
+
+  // public void goTop() {
+  //   new ParallelRaceGroup(
+  //     new RunCommand(
+  //       moveMotor(.7),
+  //       this)
+  //   )
+  // }
 
 
   // Called when the command is initially scheduled.

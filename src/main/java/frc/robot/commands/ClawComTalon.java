@@ -27,6 +27,10 @@ public class ClawComTalon extends CommandBase {
     addRequirements(claw);
   }
 
+  public void open() {
+    claw.openClaw();
+  }
+
   public void grab() {
     claw.toggleClaw();
   }
