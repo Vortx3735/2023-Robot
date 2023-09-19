@@ -9,8 +9,6 @@ import frc.robot.subsystems.ClawSubTalon;
 import frc.robot.subsystems.IntakeSubTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
-import frc.robot.subsystems.ClawSubTalon;
-
 
 
 /** An example command that uses an example subsystem. */
