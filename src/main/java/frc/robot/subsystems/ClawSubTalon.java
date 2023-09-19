@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClawSubTalon extends SubsystemBase {
-  static DoubleSolenoid phClawDoubleSolenoid;
+  public DoubleSolenoid phClawDoubleSolenoid;
   boolean isToggled;
   static String state;
   /** Creates a new ExampleSubsystem. */
@@ -29,13 +29,8 @@ public class ClawSubTalon extends SubsystemBase {
     phClawDoubleSolenoid.toggle();
   }
 
-  public static String getState(){
-    if (phClawDoubleSolenoid.get() == kForward){
-      state = "Closed";
-    } else {
-      state = "Opened";
-    }
-    return state;
+  public void closeClaw() {
+    phClawDoubleSolenoid.set(Value.kReverse);
   }
 
   @Override

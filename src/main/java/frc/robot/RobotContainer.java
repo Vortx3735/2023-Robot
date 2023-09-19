@@ -175,11 +175,12 @@ public class RobotContainer {
                 new RunCommand(
                     intake::startIntake,
                     intakesub
-                ),
-                new InstantCommand(
-                    claw::open,
-                    clawsub
                 )
+                // ,
+                // new InstantCommand(
+                //     claw::intakeClaw,
+                //     clawsub
+                // )
             )
         );
 
@@ -218,7 +219,7 @@ public class RobotContainer {
             new InstantCommand(
                 intake::push,
                 intakesub
-            )
+            )                
         );
 
         con2.cross.onTrue(
@@ -257,41 +258,24 @@ public class RobotContainer {
 
 
         //secondary hardcoded auton
-        return new SequentialCommandGroup(
-            new InstantCommand(
-                intake::push,
-                intakesub
-            ),
-            new ParallelRaceGroup(
-                new ParallelCommandGroup(
-                    new RunCommand(
-                        indexer::rev,
-                        indexersub
-                    ),
-                    new RunCommand(
-                        intake::rev,
-                        intakesub
-                    )
-                ),
-                new WaitCommand(1)
-            ),
-            new ParallelRaceGroup(
-                new RunCommand(
-                    () -> swerve.drive(
-                        new ChassisSpeeds(
-                            2,
-                            0,
-                            0
-                        )
-                    ),
-                swerve
-                ),
-                new WaitCommand(2.2)
-            )
-        );
-
-        //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
         // return new SequentialCommandGroup(
+        //     new InstantCommand(
+        //         intake::push,
+        //         intakesub
+        //     ),
+        //     new ParallelRaceGroup(
+        //         new ParallelCommandGroup(
+        //             new RunCommand(
+        //                 indexer::rev,
+        //                 indexersub
+        //             ),
+        //             new RunCommand(
+        //                 intake::rev,
+        //                 intakesub
+        //             )
+        //         ),
+        //         new WaitCommand(1)
+        //     ),
         //     new ParallelRaceGroup(
         //         new RunCommand(
         //             () -> swerve.drive(
@@ -303,21 +287,38 @@ public class RobotContainer {
         //             ),
         //         swerve
         //         ),
-        //         new WaitCommand(0.35)
-        //     ),
-        //     new ParallelRaceGroup(
-        //         new RunCommand(
-        //             () -> swerve.drive(
-        //                 new ChassisSpeeds(
-        //                     -1,
-        //                     0,
-        //                     0
-        //                 )
-        //             ),
-        //         swerve
-        //         ),
-        //         new WaitCommand(4.4)
+        //         new WaitCommand(2.2)
         //     )
         // );
+
+        //HARD-CODED AUTON, DON'T DELETE JUST COMMENT
+        return new SequentialCommandGroup(
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> swerve.drive(
+                        new ChassisSpeeds(
+                            2,
+                            0,
+                            0
+                        )
+                    ),
+                swerve
+                ),
+                new WaitCommand(0.35)
+            ),
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> swerve.drive(
+                        new ChassisSpeeds(
+                            -1,
+                            0,
+                            0
+                        )
+                    ),
+                swerve
+                ),
+                new WaitCommand(4.4)
+            )
+        );
     }
 }

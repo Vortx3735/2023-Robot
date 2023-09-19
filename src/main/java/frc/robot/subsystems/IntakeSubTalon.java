@@ -27,8 +27,12 @@ public class IntakeSubTalon extends SubsystemBase {
     IntakeTalon.set(TalonSRXControlMode.PercentOutput, percentSpeed);
   }
 
-  public void toggleIntake(){
-    phIntakeDoubleSolenoid.toggle();
+  public void openIntake(){
+    phIntakeDoubleSolenoid.set(kForward);
+  }
+
+  public void closeIntake(){
+    phIntakeDoubleSolenoid.set(kReverse);
   }
 
   public String getState(){

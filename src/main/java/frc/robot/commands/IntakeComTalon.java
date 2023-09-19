@@ -5,8 +5,11 @@
 package frc.robot.commands;
 
 
+import frc.robot.subsystems.ClawSubTalon;
 import frc.robot.subsystems.IntakeSubTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import frc.robot.subsystems.ClawSubTalon;
 
 
 
@@ -14,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IntakeComTalon extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubTalon intake;
+  private ClawSubTalon claw;
 
   /**
    * Creates a new ExampleCommand.
@@ -39,7 +43,12 @@ public class IntakeComTalon extends CommandBase {
   }
 
   public void push() {
-    intake.toggleIntake();
+    if (intake.phIntakeDoubleSolenoid.get() == kForward && claw.phClawDoubleSolenoid.get() == kReverse)
+    {
+      intake.closeIntake();
+    } else {
+      intake.openIntake();
+    }
   }
 
   // Called when the command is initially scheduled.
